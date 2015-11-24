@@ -1,0 +1,43 @@
+{
+  "name": "generator-node-npm",
+  "version": "0.4.3",
+  "description": "Create npm modules using `npm` as the build tool!",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "maurizzzio/generator-node-npm",
+  "author": {
+    "name": "Mauricio Poppe",
+    "email": "",
+    "url": "https://github.com/maurizzzio"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha test/test-app.js",
+    "test-ci": "mocha test/ci.js",
+    "lint": "eslint app test"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "fs-extra": "^0.26.2",
+    "to-slug-case": "^0.1.2",
+    "yeoman-generator": "^0.21.1",
+    "yosay": "^1.0.2"
+  },
+  "peerDependencies": {
+    "generator-babel": ">=1.0.3"
+  },
+  "devDependencies": {
+    "async-series": "0.0.1",
+    "extend": "^2.0.0",
+    "mocha": "*",
+    "xtend": "^4.0.1"
+  }
+}

@@ -1,0 +1,12 @@
+sudo: false
+language: node_js
+env: CI=true
+
+node_js:
+  - '0.10'
+  - '0.12'
+  - '4'
+
+test:
+  - npm run lint
+  - npm test
