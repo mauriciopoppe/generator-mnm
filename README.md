@@ -39,9 +39,10 @@ $ yo mnm
 
 - Made out of many other generators, the main generator only creates a `package.json` file
 - Composable, since the logic to create the README, cli and other files is in its own subgenerator you just have to plug as many subgenerators as you need to your own generator
-- es6 + babel out of the box
-- [feross/standard](http://standardjs.com/) 
-- npm scripts are adequate for everything I need
+- es6 + [Babel](https://babeljs.io) for the code/tests
+- [feross/standard](http://standardjs.com/) to lint the code
+- [substack/tape](https://github.com/substack/tape) for testing
+- npm scripts as the build system
 
 ## List of npm scripts included
 
