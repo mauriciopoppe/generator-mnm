@@ -1,10 +1,10 @@
-# generator-node-mwm
+# generator-node-mnm
     
 [![NPM][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Downloads][download-badge]][npm-url]
 
-> Create node modules with es6, tape and npm scripts
+> Create node modules with es6, test with tape on top of npm scripts
 
 ## Install
 
@@ -89,11 +89,11 @@ this.composeWith('mnm:boilerplate', {
 
 2015 MIT © [Mauricio Poppe](http://maurizzzio.com)
 
-[npm-image]: https://img.shields.io/npm/v/generator-mnm.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/generator-mnm.svg?style=flat
 [npm-url]: https://npmjs.org/package/generator-mnm
-[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg?style=flat
 [travis-url]: https://travis-ci.org/maurizzzio/generator-mnm
-[download-badge]: http://img.shields.io/npm/dm/generator-mnm.svg?style=flat-square
+[download-badge]: http://img.shields.io/npm/dm/generator-mnm.svg?style=flat
 [stop-using-grunt-gulp]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
 
 [stop]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
