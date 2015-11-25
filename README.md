@@ -2,7 +2,7 @@
 <img src="https://cloud.githubusercontent.com/assets/1616682/11403449/409e561e-9373-11e5-9aeb-7dbea090a0bd.gif" width="400px" />
 
 <p>
-Create node modules with es6, test with tape on top of npm scripts
+Create node modules with ES6, test with tape on top of npm scripts
 </p>
 
 <p>
@@ -39,9 +39,11 @@ $ yo mnm
 
 - Made out of many other generators, the main generator only creates a `package.json` file
 - Composable, since the logic to create the README, cli and other files is in its own subgenerator you just have to plug as many subgenerators as you need to your own generator
-- es6 + [Babel](https://babeljs.io) for the code/tests
+- ES6 + [Babel](https://babeljs.io) for the code/tests
 - [feross/standard](http://standardjs.com/) to lint the code
 - [substack/tape](https://github.com/substack/tape) for testing
+- [bcoe/yargs](https://github.com/bcoe/yargs) to parse cli arguments (optional)
+- [douglasduteil/isparta](https://github.com/douglasduteil/isparta) as the code coverage tool for ES6 (optional)
 - npm scripts as the build system
 
 ## List of npm scripts included
@@ -50,9 +52,9 @@ Common tasks
 
 | task       | description  |
 | -----      | ---          |
-| `npm test` | Executes the tests in `test/` (written in es6), output piped to [tap-spec](https://github.com/scottcorgan/tap-spec) |
+| `npm test` | Executes the tests in `test/` (written in ES6), output piped to [tap-spec](https://github.com/scottcorgan/tap-spec) |
 | `npm run lint` | Lints the code with [standard](http://standardjs.com) |
-| `npm run build` | Transforms the es6 code located at `lib/` with [Babel](https://babeljs.io) (output goes `dist/`)| 
+| `npm run build` | Transforms the ES6 code located at `lib/` with [Babel](https://babeljs.io) (output goes `dist/`)| 
 | `npm run clean` | Removes all the files inside the `dist/` directory using [rimraf](https://github.com/isaacs/rimraf)|
 | `npm run coveralls` | Uploads the coverage report to Coveralls, should be run on travis only |
 | `npm run deploy` | Syncs the repo with GitHub, `git pull/push` |
@@ -93,7 +95,7 @@ This project is heavily inspired by [this article by Keith Cirkel][stop-using-gr
 ### Inspiration projects
 
 - https://github.com/yeoman/generator-node
-- https://github.com/vinniegarcia/es6-module-starter
+- https://github.com/vinniegarcia/ES6-module-starter
 - https://github.com/sindresorhus/generator-nm
 - https://github.com/bucaran/generator-rise
 - https://github.com/keithamus/npm-scripts-example 's awesome `package.json` file
