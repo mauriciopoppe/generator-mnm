@@ -8,7 +8,7 @@ node_js:
   - v4
   - v5
 
-test:
+script:
   - npm test
   - npm run test:ci
 
