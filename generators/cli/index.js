@@ -28,7 +28,7 @@ module.exports = generators.Base.extend({
 
   installs: function () {
     if (!this.options['skip-install']) {
-      this.npmInstall(['minimist'], { save: true })
+      this.npmInstall(['yargs'], { save: true })
     }  
   }
 })

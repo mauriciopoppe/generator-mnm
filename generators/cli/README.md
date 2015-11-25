@@ -1,7 +1,7 @@
 # mnm:cli
 
 Creates the file `lib/cli.js` (written in es6), it also adds the field `bin:
-dist/cli.js` on your package.json file (argument parser: [minimist](https://github.com/substack/minimist))
+dist/cli.js` on your package.json file (argument parser: [yargs](https://github.com/bcoe/yargs))
 
 ```js
 this.composeWith('mnm:cli', {
