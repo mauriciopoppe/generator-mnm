@@ -156,7 +156,11 @@ module.exports = generators.Base.extend({
   default: function () {
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
     this.composeWith('travis', {
-      options: { config: { after_script: ['npm run coveralls']  } }
+      options: { 
+        config: { 
+          after_script: ['npm run lint', 'npm run coveralls']  
+        } 
+      }
     }, {
       local: require.resolve('generator-travis/generators/app')
     })

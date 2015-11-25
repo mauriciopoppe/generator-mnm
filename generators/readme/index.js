@@ -72,6 +72,26 @@ module.exports = generators.Base.extend({
   },
 
   prompting: {
+    askForGithubAccount: function () {
+      if (this.options.githubAccount) {
+        this.props.githubAccount = this.options.githubAccount
+        return
+      }
+
+      var done = this.async()
+      githubUsername(this.props.authorEmail, function (err, username) {
+        if (err) { console.error(err) }
+        this.prompt({
+          name: 'githubAccount',
+          message: 'GitHub username or organization',
+          default: username
+        }, function (prompt) {
+          this.props.githubAccount = prompt.githubAccount
+          done()
+        }.bind(this))
+      }.bind(this))
+    },
+
     badges: function () {
       var done = this.async()
       this.prompt([{
@@ -95,27 +115,7 @@ module.exports = generators.Base.extend({
         default: ['npm', 'travis']
       }], function (props) {
         this.props = extend(this.props, props)
-        done()
-      }.bind(this))
-    },
-
-    askForGithubAccount: function () {
-      if (this.options.githubAccount) {
-        this.props.githubAccount = this.options.githubAccount
-        return
-      }
-
-      var done = this.async()
-      githubUsername(this.props.authorEmail, function (err, username) {
-        if (err) { console.error(err) }
-        this.prompt({
-          name: 'githubAccount',
-          message: 'GitHub username or organization',
-          default: username
-        }, function (prompt) {
-          this.props.githubAccount = prompt.githubAccount
           done()
-        }.bind(this))
       }.bind(this))
     }
   },
