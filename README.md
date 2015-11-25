@@ -1,11 +1,24 @@
-# generator-node-mnm
+<div align="center">
+<img src="https://cloud.githubusercontent.com/assets/1616682/11403449/409e561e-9373-11e5-9aeb-7dbea090a0bd.gif" width="400px" />
+
+<p>
+Create node modules with es6, test with tape on top of npm scripts
+</p>
+
+<p>
+<a href="https://npmjs.org/package/generator-mnm">
+  <img src="https://img.shields.io/npm/v/generator-mnm.svg?style=flat">
+</a>
+<a href="https://travis-ci.org/maurizzzio/generator-mnm">
+  <img src="https://img.shields.io/travis/maurizzzio/generator-mnm.svg?style=flat">
+</a>
+<a href="https://npmjs.org/package/generator-mnm">
+  <img src="http://img.shields.io/npm/dm/generator-mnm.svg?style=flat">
+</a>
+</p>
+
+</div>
     
-[![NPM][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads][download-badge]][npm-url]
-
-> Create node modules with es6, test with tape on top of npm scripts
-
 ## Install
 
 ```sh
@@ -18,7 +31,9 @@ $ npm install -g yo generator-mnm
 $ yo mnm
 ```
 
-<img align="center" src="https://cloud.githubusercontent.com/assets/1616682/11389890/2d80b6a6-931b-11e5-910c-f2594f485098.gif">
+<div align="center">
+<img src="https://cloud.githubusercontent.com/assets/1616682/11389890/2d80b6a6-931b-11e5-910c-f2594f485098.gif">
+</div>
 
 ## Features
 
@@ -56,11 +71,6 @@ Pre/Post hooks
 | `npm run preversion` | Lints the code, run tests and transforms the code |
 | `npm run postversion` | Pushes your code to GitHub (including tags) |
 
-You can execute them all at once with `npm run preversion`
-
-See the [list of scripts
-included](https://github.com/maurizzzio/generator-mnm/blob/master/generators/app/index.js#L256-L278)
-
 ### Useful npm commands that you should know
 
 - `npm version major|minor|patch` bumps the package version
@@ -95,7 +105,9 @@ This project is heavily inspired by [this article by Keith Cirkel][stop-using-gr
 
 Just plug in any of the subgenerators or the generator itself on your generator
 
-![yo dawg](https://camo.githubusercontent.com/f8dc3e07d956f1f8dbdea5f895800fe53772a50d/687474703a2f2f692e696d6775722e636f6d2f326771696966742e6a7067)
+<div align="center">
+<img src="https://camo.githubusercontent.com/f8dc3e07d956f1f8dbdea5f895800fe53772a50d/687474703a2f2f692e696d6775722e636f6d2f326771696966742e6a7067">
+</div>
 
 Generators used in this project
 
@@ -114,13 +126,7 @@ Refer to their README files on how to include it your generators
 
 2015 MIT © [Mauricio Poppe](http://maurizzzio.com)
 
-[npm-image]: https://img.shields.io/npm/v/generator-mnm.svg?style=flat
-[npm-url]: https://npmjs.org/package/generator-mnm
-[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg?style=flat
-[travis-url]: https://travis-ci.org/maurizzzio/generator-mnm
-[download-badge]: http://img.shields.io/npm/dm/generator-mnm.svg?style=flat
 [stop-using-grunt-gulp]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
-
 [stop]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
 [how-to]: http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/
 [task-automation]: http://substack.net/task_automation_with_npm_run
