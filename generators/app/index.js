@@ -54,7 +54,7 @@ module.exports = generators.Base.extend({
 
       askName({
         name: 'name',
-        message: 'What is the module name?',
+        message: 'Module name',
         default: slug(require('path').basename(process.cwd())),
         validate: function (str) {
           return str.length > 0
@@ -69,7 +69,7 @@ module.exports = generators.Base.extend({
       var done = this.async()
       var prompts = [{
         name: 'description',
-        message: 'What is the module description?',
+        message: 'Module description',
         when: !this.props.description
       }, {
         name: 'homepage',
@@ -156,19 +156,19 @@ module.exports = generators.Base.extend({
   default: function () {
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
     this.composeWith('travis', {
-      options: {
-        config: { after_script: ['npm run coveralls']  }
-      }
+      options: { config: { after_script: ['npm run coveralls']  } }
     }, {
       local: require.resolve('generator-travis/generators/app')
     })
 
     this.composeWith('babel', {
-      options: {
-        'skip-install': this.options['skip-install']
-      }
+      options: { 'skip-install': this.options['skip-install'] }
     }, {
       local: require.resolve('generator-babel/generators/app')
+    })
+
+    this.composeWith('git-init', {}, {
+      local: require.resolve('generator-git-init/generators/app')
     })
     
     if (!this.pkg.license) {
@@ -184,20 +184,15 @@ module.exports = generators.Base.extend({
     }
 
     this.composeWith('mnm:boilerplate', {
-      options: {
-        name: this.props.name
-      }
+      options: { }
     }, {
       local: require.resolve('../boilerplate')
     })
 
-    this.composeWith('node:git', {
-      options: {
-        name: this.props.name,
-        githubAccount: this.props.githubAccount
-      }
+    this.composeWith('mwm:git', {
+      options: { }
     }, {
-      local: require.resolve('generator-node/generators/git')
+      local: require.resolve('../git')
     })
 
     if (this.props.includeCli) {
@@ -217,13 +212,13 @@ module.exports = generators.Base.extend({
           description: this.props.description,
           githubAccount: this.props.githubAccount,
           author: this.props.authorName,
-          website: this.props.authorUrl
+          website: this.props.authorUrl,
+          coveralls: this.props.includeCoveralls
         }
       }, {
         local: require.resolve('../readme')
       })
     }
-
   },
 
   writing: function () {

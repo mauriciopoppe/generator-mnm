@@ -5,8 +5,10 @@ env: CI=true
 node_js:
   - '0.10'
   - '0.12'
-  - '4'
+  - v4
+  - v5
 
 test:
-  - npm run lint
   - npm test
+  - npm run test:ci
+

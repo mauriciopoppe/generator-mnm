@@ -46,12 +46,10 @@ module.exports = generators.Base.extend({
       desc: 'Website'
     })
 
-    // readme looks
-    this.option('center', {
+    this.option('coveralls', {
       type: Boolean,
       required: false,
-      defaults: false,
-      desc: 'Center the badges'
+      desc: 'Include the coveralls badge'
     })
   },
 
@@ -87,19 +85,14 @@ module.exports = generators.Base.extend({
           name: 'travis',
           checked: true
         }, {
-          name: 'coveralls'
+          name: 'coveralls',
+          checked: this.options.coveralls
         }, {
           name: 'david'
         }, {
           name: 'downloads'
         }],
         default: ['npm', 'travis']
-      }, {
-        type: 'confirm',
-        name: 'center',
-        message: 'Do you want your badges centered?',
-        default: false,
-        when: this.options.center === undefined
       }], function (props) {
         this.props = extend(this.props, props)
         done()
@@ -136,7 +129,6 @@ module.exports = generators.Base.extend({
       description: defined(pkg.description, this.options.description),
       license: defined(pkg.license, this.options.licence, 'MIT')
     })
-    this.props.center = defined(this.props.center, this.options.center, false)
     this.props.slugName = slugCase(this.props.name)
     this.props.camelName = camelCase(this.props.name)
     this.fs.copyTpl(

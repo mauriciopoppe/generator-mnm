@@ -17,6 +17,8 @@ var answers = {
 }
 
 describe('node-mnm:app', function () {
+  this.timeout(10000)
+
   before(function () {
     mockery.enable({warnOnUnregistered: false})
 
@@ -65,7 +67,6 @@ describe('node-mnm:app', function () {
         version: '0.0.0',
         description: answers.description,
         homepage: answers.homepage,
-        repository: 'maurizzzio/generator-mnm',
         author: {
           name: answers.authorName,
           email: answers.authorEmail,
@@ -117,4 +118,6 @@ describe('node-mnm:app', function () {
       assert.file('lib/cli.js')
     })
   })
+
+  // coveralls needs to checked on runtime
 })

@@ -1,79 +1,56 @@
-# generator-node-npm [![Build Status][travis-image]][travis-url]
-
+# generator-node-mwm
+    
 [![NPM][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Downloads][download-badge]][npm-url]
 
-> Create npm modules written in es6 using `npm` as the build tool!
+> Create node modules with es6, tape and npm scripts
 
 ## Install
 
 ```sh
-$ npm install -g generator-node-npm
+$ npm install -g generator-mnm
 ```
 
 ## Usage
 
 ```sh
-$ yo node-npm
+$ yo node-mnm
 ```
 
-*Note that this template will generate files in the current directory, so be sure to change to a
-new directory first if you don't want to overwrite existing files.*
+<img align="center" src="https://cloud.githubusercontent.com/assets/1616682/11389890/2d80b6a6-931b-11e5-910c-f2594f485098.gif">
 
-## Directory structure
+## Features
 
-Generated with `yo node-npm` inside a new project (cli/codeCoverage modes turned on)
+- Made out of many other generators, the main generator only creates a `package.json` file
+- Composable, since the logic to create the README, cli and other files is in its own subgenerator you just have to plug as many subgenerators as you need
+- es6 + babel out of the box
+- [feross/standard](http://standardjs.com/) is the perfect linter for me
+- npm scripts are adequate for everything I need
 
-```
-.
-├── .babelrc
-├── .gitignore
-├── README.md
-├── bin (if required)
-├── lib
-│   └── <main file>.js
-├── node (transpiled code)
-├── package.json
-└── test
-    └── index.js
-```
+## Most important tasks
 
-## Available Tasks
+| task       | description  |
+| -----      | ---          |
+| `npm test` | Executes the tests in `test/index.js` (in es6), output piped to [tap-spec](https://github.com/scottcorgan/tap-spec) |
+| `npm run lint` | Lints the code with [standard](http://standardjs.com) |
+| `npm run build` | Transforms the es6 code located at `lib/` to `dist/` |
 
-You can see the list of all available tasks running `npm run` on the generated project
+You can execute them all at once with `npm run preversion`
 
-### `npm start`
-
-Watches the changes in on `lib/`, if there's a file change then the test located
-in `test/` are run
-
-### `npm test`
-
-Executes the tests located in `test/`, powered by [substack/tape](https://github.com/substack/tape) (you can write your tests in es6)
-
-### `npm run lint`
-
-Lints `index.js, test/, lib/` (powered by [feross/standard](https://github.com/feross/standard))
-
-### `npm run test:cov` (only when the mode codeCoverage is turned on)
-
-Generates a coverage report of the files tested by `test/index.js`, additionally when a
-build is triggered on [TravisCI](https://travis-ci.org) the coverage report will be sent to
-[Coveralls](https://coveralls.io/)
+See the [list of scripts
+included](https://github.com/maurizzzio/generator-mnm/blob/master/generators/app/index.js#L256-L278)
 
 ### Useful npm commands that you should know
 
 - `npm version major|minor|patch` bumps the package version
-- `npm run` lists all available tasks
+- `npm run` lists all available scripts
 
 ## Why?
 
-This project is heavily inspired by [this article by Keith Cirkel][stop-using-grunt-gulp] where he describes that
-the existing build system tools attempt to solve the problems that exist among them "covering up the inadequacies
-of the other tools while also surfacing their own".
+This project is heavily inspired by [this article by Keith Cirkel][stop-using-grunt-gulp] where he describes that the existing build system tools attempt to solve the problems that exist among them "covering up the inadequacies of the other tools while also surfacing their own".
 
-[James Halliday](https://www.npmjs.com/~substack) who is the creator of many awesome packages like `browserify` and
-`tape` also wrote an article where he points out that the command `npm run` is "perfectly adequate for everything
-while maintaining a very tiny configuration footprint."
+[James Halliday](https://www.npmjs.com/~substack) who is the creator of many awesome packages like `browserify` and `tape` also wrote an article where he points out that the command `npm run` is "perfectly adequate for everything while maintaining a very tiny configuration footprint."
 
 ### Articles to read:
 
@@ -85,38 +62,38 @@ while maintaining a very tiny configuration footprint."
 ### Inspiration projects
 
 - https://github.com/yeoman/generator-node
-- https://github.com/youngmountain/generator-node-gulp
-- https://github.com/keithamus/npm-scripts-example 's awesome `package.json` file
-
-### Related projects
-
 - https://github.com/vinniegarcia/es6-module-starter
 - https://github.com/sindresorhus/generator-nm
+- https://github.com/bucaran/generator-rise
+- https://github.com/keithamus/npm-scripts-example 's awesome `package.json` file
 
 ## Development
 
-Run the tests with `npm test`
+WIP
 
-## FAQ
+### Composability
 
-### The generator fails if there's no internet connection, why?
+Just plug in any of the subgenerators or the generator itself on your generator
 
-The generator uses the package [npm-name](https://www.npmjs.com/package/npm-name) to check whether the package name is available on npm, to disable the check define the env variable `OFFLINE`
+![yo dawg](https://camo.githubusercontent.com/f8dc3e07d956f1f8dbdea5f895800fe53772a50d/687474703a2f2f692e696d6775722e636f6d2f326771696966742e6a7067)
 
-```sh
-OFFLINE=true yo node-npm
+```js
+this.composeWith('mnm:boilerplate', {
+  options: {}
+}, {
+  local: require.resolve('generator-mnm/generators/boilerplate')
+})
 ```
 
 ## License
 
-2015 MIT © Mauricio Poppe
+2015 MIT © [Mauricio Poppe](http://maurizzzio.com)
 
-[npm-image]: https://nodei.co/npm/generator-node-npm.png?downloads=true
-[npm-url]: https://npmjs.org/package/generator-node-npm
-[travis-image]: https://travis-ci.org/maurizzzio/generator-node-npm.svg?branch=master
-[travis-url]: https://travis-ci.org/maurizzzio/generator-node-npm
-[coveralls-image]: https://coveralls.io/repos/maurizzzio/generator-node-npm/badge.svg
-[coveralls-url]: https://coveralls.io/r/maurizzzio/generator-node-npm
+[npm-image]: https://img.shields.io/npm/v/generator-mnm.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/generator-mnm
+[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg?style=flat-square
+[travis-url]: https://travis-ci.org/maurizzzio/generator-mnm
+[download-badge]: http://img.shields.io/npm/dm/generator-mnm.svg?style=flat-square
 [stop-using-grunt-gulp]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
 
 [stop]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
