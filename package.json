@@ -1,43 +1,64 @@
 {
-  "name": "generator-node-npm",
-  "version": "0.4.3",
-  "description": "Create npm modules using `npm` as the build tool!",
+  "name": "generator-mnm",
+  "version": "0.0.1",
+  "description": "Create node modules with es6, tape and npm scripts",
   "license": "MIT",
-  "main": "app/index.js",
-  "repository": "maurizzzio/generator-node-npm",
+  "main": "index.js",
+  "repository": "maurizzzio/generator-mnm",
   "author": {
     "name": "Mauricio Poppe",
-    "email": "",
+    "email": "mauricio.poppe@gmail.com",
     "url": "https://github.com/maurizzzio"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha test/test-app.js",
-    "test-ci": "mocha test/ci.js",
-    "lint": "eslint app test"
+    "test": "mocha test/app.js",
+    "test:ci": "mocha test/ci.js",
+    "lint": "standard"
   },
   "files": [
-    "app"
+    "generators",
+    "index.js"
   ],
   "keywords": [
-    "yeoman-generator"
+    "mnm",
+    "yeoman-generator",
+    "boilerplate",
+    "es6",
+    "node",
+    "module",
+    "starter",
+    "yeoman",
+    "scaffold",
+    "node-module",
+    "npm scripts",
+    "generator",
+    "yo"
   ],
   "dependencies": {
     "chalk": "^1.0.0",
-    "fs-extra": "^0.26.2",
+    "defined": "^1.0.0",
+    "extend": "^2.0.0",
+    "generator-babel": "^1.0.3",
+    "generator-license": "^3.0.0",
+    "generator-node": "^1.7.1",
+    "generator-travis": "^1.2.2",
+    "github-username": "^2.1.0",
+    "inquirer-npm-name": "^1.0.0",
+    "is-object": "^1.0.1",
+    "parse-author": "^0.2.0",
+    "to-camel-case": "^0.2.1",
     "to-slug-case": "^0.1.2",
     "yeoman-generator": "^0.21.1",
     "yosay": "^1.0.2"
   },
-  "peerDependencies": {
-    "generator-babel": ">=1.0.3"
-  },
   "devDependencies": {
     "async-series": "0.0.1",
-    "extend": "^2.0.0",
-    "mocha": "*",
-    "xtend": "^4.0.1"
+    "fs-extra": "^0.26.2",
+    "mocha": "^2.3.4",
+    "mockery": "^1.4.0",
+    "to-camel-case": "^0.2.1"
   }
 }

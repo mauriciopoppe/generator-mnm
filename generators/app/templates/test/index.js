@@ -1,5 +1,8 @@
-import <%= safeSlugname %> from '../src/'
+'use strict'
+
 import test from 'tape'
+
+import <%= safeSlugname %> from '../src/'
 
 test('awesome:test', t => {
   const message = 'everything is awesome'
