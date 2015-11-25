@@ -3,13 +3,11 @@
  */
 'use strict';
 
-var fs = require('fs-extra');
 var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 var exec = require('child_process').exec;
 var series = require('async-series')
-var extend = require('extend');
 
 describe('node-npm on CI', function () {
   this.timeout(600000)
