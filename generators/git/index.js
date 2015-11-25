@@ -1,8 +1,5 @@
 'use strict'
-var camelCase = require('to-camel-case')
-var slugCase = require('to-slug-case')
 var generators = require('yeoman-generator')
-var extend = require('xtend')
 
 module.exports = generators.Base.extend({
   constructor: function () {
