@@ -25,7 +25,7 @@ describe('node-npm on CI', function () {
       .withOptions({ skipInstall: false })
       .withPrompts({
         name: 'generator-mnm-example',
-        description: 'yo mnm',
+        description: 'An example of the generator https://github.com/maurizzzio/generator-mnm',
         homepage: 'http://github.com/maurizzzio/generator-mnm-example',
         githubAccount: 'maurizzzio',
         authorName: 'Mauricio Poppe',
