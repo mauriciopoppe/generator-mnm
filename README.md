@@ -46,6 +46,10 @@ $ yo mnm
 - [douglasduteil/isparta](https://github.com/douglasduteil/isparta) as the code coverage tool for ES6 (optional)
 - npm scripts as the build system
 
+## Example
+
+Check [https://github.com/maurizzzio/generator-mnm-example](https://github.com/maurizzzio/generator-mnm-example)
+
 ## List of npm scripts included
 
 Common tasks
