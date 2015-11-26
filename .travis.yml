@@ -1,14 +1,19 @@
 sudo: false
 language: node_js
-env: CI=true
+env:
+  global:
+    - CI: true
+    - GH_REF: github.com/maurizzzio/generator-mnm-example.git
+    - secure: "XfZc7K6FnEmVFoUFm1EpOvU2tsBPbl66L5vaIStSmMG0rnb72Wa8Nw9/muO1AfoOz9rdv1y480ToUOYgjSVUOfeMoAbiVSwRvyv2LRmBz0uXS1AaU0NGunII/s+oVipE8EfStAGWVd+o2uWjEln17dx1u4t+vVL96/ciQ99NbdYnUPTxUJEnWk7ZaJOcCcGSn+SW3f16jn10MMQRs2qqssQcMqhY9tqDSrjKpY2VvHRQhZlSlNh4g8FfbVy3cxc1opGM/HSvgTThmppTHKpzKCRSGGs0gIu1fzM5tQNPSAq9XDU+O+MRrEFJdt6omieJKXHDosMFG8Kw6jEKiMbh99fW1Bj1CPijl8o2SH6xXXsYOBwOQpzJXnnp/jvDuYpbNRLX/bbTLoMg8FH52wWu7py30uMjGJIvuRRO79ggw7IsoFbRJ0YkEyTMbkLauJf5dBeCAfc0WaSgTjpW0K01DFv+ewJcd6SMHWHxNu4TvyPQ0jpuolvneg+7RU0F2kuzfss5PbcdW62ELUZhIMt6mXt11JS4tBpNaG16dCwj78uT1rJ1TmFsOZtq4dTm5ASB9yJ23gKvGLAcq5BnnfNs5P42T3S+FwvHiQ9E3AsILchWSe+Qyq7ST5/VdhdmBIfLIzyNTNr3F/MTUsSRDE9QNqt+Bh4CQnD4c+/O0EYAtmw="
 
 node_js:
-  - '0.10'
-  - '0.12'
   - v4
-  - v5
 
 script:
   - npm test
   - npm run test:ci
+  # auto deploy test/.tmp to maurizzzio/generator-mnm-example
+
+after_success:
+  - bash deploy.sh
 

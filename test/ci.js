@@ -25,13 +25,13 @@ describe('node-npm on CI', function () {
       .withOptions({ skipInstall: false })
       .withPrompts({
         name: 'generator-mnm-example',
-        description: 'A node module generator',
-        homepage: 'http://generator-mnm.com',
+        description: 'yo mnm',
+        homepage: 'http://github.com/maurizzzio/generator-mnm-example',
         githubAccount: 'maurizzzio',
         authorName: 'Mauricio Poppe',
         authorEmail: 'mauricio.poppe@gmail.com',
         authorUrl: 'http://maurizzzio.com',
-        keywords: ['foo', 'bar'],
+        keywords: ['generator', 'example', 'mnm'],
         
         // addons
         includeCli: true,
@@ -41,8 +41,7 @@ describe('node-npm on CI', function () {
         license: 'MIT',
 
         // ./generators/readme
-        badges: ['npm', 'travis', 'coveralls', 'david', 'downloads'],
-        center: true
+        badges: ['npm', 'travis', 'coveralls', 'david', 'downloads']
       })
       .on('end', afterInstall);
   })
