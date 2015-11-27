@@ -1,6 +1,6 @@
 {
   "name": "generator-mnm",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Create node modules with es6, test with tape on top of npm scripts",
   "license": "MIT",
   "main": "index.js",
