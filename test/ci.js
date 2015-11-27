@@ -57,12 +57,6 @@ describe('node-npm on CI', function () {
       ], done)
     })
 
-    it('should execute utility stuff', function (done) {
-      series([
-        function (cb) { handleProcess('npm run changelog', cb) }
-      ], done)
-    })
-
     it('should generate a codecov file', function (done) {
       series([
         function (cb) { handleProcess('npm run test:coverage', cb) },
@@ -75,7 +69,7 @@ describe('node-npm on CI', function () {
 
     it('should have an executable cli file', function (done) {
       series([
-        function (cb) { handleProcess('npm run buid', cb) },
+        function (cb) { handleProcess('npm run build', cb) },
         function (cb) { handleProcess('node dist/cli.js awesome', cb) }
       ], done)
     })
