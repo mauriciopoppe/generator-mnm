@@ -261,7 +261,6 @@ module.exports = generators.Base.extend({
       lint: 'standard',
       coveralls: 'npm run test:coverage -s && coveralls < coverage/lcov.info',
       postcoveralls: 'rimraf coverage',
-      changelog: "doctoc --github --title '# Changelog' CHANGELOG.md",
 
       // tests
       test: 'babel-tape-runner test | tap-spec',
@@ -289,7 +288,6 @@ module.exports = generators.Base.extend({
       'tap-spec',
       'babel-tape-runner',
       'watch',
-      'doctoc',
       'standard',
       'rimraf'
     ]

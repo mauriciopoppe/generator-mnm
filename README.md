@@ -61,7 +61,7 @@ Common tasks
 | `npm run build` | Transforms the ES6 code located at `lib/` with [Babel](https://babeljs.io) (output goes `dist/`)| 
 | `npm run clean` | Removes all the files inside the `dist/` directory using [rimraf](https://github.com/isaacs/rimraf)|
 | `npm run coveralls` | Uploads the coverage report to Coveralls, should be run on travis only |
-| `npm run deploy` | Syncs the repo with GitHub, `git pull/push` |
+| `npm run deploy` | Syncs the repo with your remote i.e. `git pull && git push` |
 
 Watching files
 
