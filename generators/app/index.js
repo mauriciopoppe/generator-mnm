@@ -157,8 +157,10 @@ module.exports = generators.Base.extend({
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
     this.composeWith('travis', {
       options: { 
-        config: { 
-          after_script: ['npm run lint', 'npm run coveralls']  
+        config: {
+          before_script: ['npm run lint'],
+          script: ['npm run build'],
+          after_script: ['npm run coveralls']  
         } 
       }
     }, {
@@ -202,6 +204,7 @@ module.exports = generators.Base.extend({
     if (this.props.includeCli) {
       this.composeWith('mnm:cli', {
         options: {
+          bin: 'dist/cli.js',
           'skip-install': this.options['skip-install']
         }
       }, {
@@ -258,7 +261,7 @@ module.exports = generators.Base.extend({
       lint: 'standard',
       coveralls: 'npm run test:coverage -s && coveralls < coverage/lcov.info',
       postcoveralls: 'rimraf coverage',
-      toc: "doctoc --github --title '# Changelog' CHANGELOG.md",
+      changelog: "doctoc --github --title '# Changelog' CHANGELOG.md",
 
       // tests
       test: 'babel-tape-runner test | tap-spec',

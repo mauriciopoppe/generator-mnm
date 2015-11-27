@@ -43,7 +43,7 @@ describe('node-npm on CI', function () {
         // ./generators/readme
         badges: ['npm', 'travis', 'coveralls', 'david', 'downloads']
       })
-      .on('end', afterInstall);
+      .on('end', afterInstall)
   })
 
   describe('with default options', function () {
@@ -51,9 +51,17 @@ describe('node-npm on CI', function () {
       series([
         function (cb)  { handleProcess('npm test', cb)  },
         function (cb)  { handleProcess('npm run lint', cb)  },
-        function (cb)  { handleProcess('npm run build', cb)  }
+        function (cb)  { handleProcess('npm run build', cb)  },
+        // all in one
+        function (cb)  { handleProcess('npm run preversion', cb)  },
       ], done)
-    });
+    })
+
+    it('should execute utility stuff', function (done) {
+      series([
+        function (cb) { handleProcess('npm run changelog', cb) }
+      ], done)
+    })
 
     it('should generate a codecov file', function (done) {
       series([
@@ -65,8 +73,9 @@ describe('node-npm on CI', function () {
       ], done)
     })
 
-    it('should be executable', function (done) {
+    it('should have an executable cli file', function (done) {
       series([
+        function (cb) { handleProcess('npm run buid', cb) },
         function (cb) { handleProcess('node dist/cli.js awesome', cb) }
       ], done)
     })

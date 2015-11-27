@@ -11,7 +11,7 @@
     "url": "https://github.com/maurizzzio"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "mocha test/app.js",
@@ -49,6 +49,7 @@
     "inquirer-npm-name": "^1.0.0",
     "is-object": "^1.0.1",
     "parse-author": "^0.2.0",
+    "relative": "^3.0.2",
     "to-camel-case": "^0.2.1",
     "to-slug-case": "^0.1.2",
     "yeoman-generator": "^0.21.1",
