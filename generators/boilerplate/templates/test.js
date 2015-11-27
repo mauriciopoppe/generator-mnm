@@ -1,6 +1,6 @@
 'use strict'
 
-import <%= camelName %> from '../lib/'
+import <%= camelName %> from '<%= indexPath %>'
 import test from 'tape'
 
 test('awesome:test', t => {
