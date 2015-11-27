@@ -274,7 +274,7 @@ module.exports = generators.Base.extend({
       'build:watch': "watch 'npm run build' lib",
 
       // deploy (preversion is used instead of prepublish)
-      preversion: 'npm run lint -s && npm run test -s && npm run babel -s',
+      preversion: 'npm run lint -s && npm run test -s && npm run build -s',
       postversion: 'git push origin master --follow-tags',
       deploy: 'git pull --rebase origin master && git push origin master'
     })
