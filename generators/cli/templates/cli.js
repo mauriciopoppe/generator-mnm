@@ -3,7 +3,7 @@
 
 import yargs from 'yargs'
 
-import <%= camelName %> from './'
+import <%= camelName %> from '<%= indexPath %>'
 
 yargs
   .usage('Usage: $0 [an argument]')
