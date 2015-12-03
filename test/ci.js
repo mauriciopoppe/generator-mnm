@@ -35,13 +35,13 @@ describe('node-npm on CI', function () {
         
         // addons
         includeCli: true,
-        includeCoveralls: true,
+        includeCodecov: true,
 
         // generator-license
         license: 'MIT',
 
         // ./generators/readme
-        badges: ['npm', 'travis', 'coveralls', 'david', 'downloads']
+        badges: ['npm', 'travis', 'codecov', 'david', 'downloads']
       })
       .on('end', afterInstall)
   })

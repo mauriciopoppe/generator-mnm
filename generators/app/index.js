@@ -258,8 +258,8 @@ module.exports = generators.Base.extend({
       // utils
       clean: 'rimraf dist',
       lint: 'standard',
-      coveralls: 'npm run test:coverage -s && codecov < coverage/lcov.info',
-      postcoveralls: 'rimraf coverage',
+      codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
+      postcodecov: 'rimraf coverage',
 
       // tests
       test: 'babel-tape-runner test | tap-spec',
@@ -291,7 +291,7 @@ module.exports = generators.Base.extend({
       'rimraf'
     ]
     if (this.props.includeCodecov) {
-      devDependencies.push('isparta', 'codecov')
+      devDependencies.push('isparta', 'codecov.io')
     }
     this.npmInstall(devDependencies, { 'save-dev': true })
   }
