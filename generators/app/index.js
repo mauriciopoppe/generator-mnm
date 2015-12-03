@@ -138,15 +138,14 @@ module.exports = generators.Base.extend({
         default: false
       }, {
         type: 'confirm',
-        name: 'includeCoveralls',
+        name: 'includeCodecov',
         message: 'Do you need a code coverage tool?',
-        when: this.options.coverage === undefined,
         default: false
       }]
       this.prompt(prompts, function (props) {
         this.props = extend(this.props, {
           includeCli: this.options.cli,
-          includeCoveralls: this.options.coveralls
+          includeCodecov: this.options.codecov
         }, props)
         done()
       }.bind(this))
@@ -160,7 +159,7 @@ module.exports = generators.Base.extend({
         config: {
           before_script: ['npm run lint'],
           script: ['npm run build'],
-          after_script: ['npm run coveralls']  
+          after_script: ['npm run codecov']  
         } 
       }
     }, {
@@ -220,7 +219,7 @@ module.exports = generators.Base.extend({
           githubAccount: this.props.githubAccount,
           author: this.props.authorName,
           website: this.props.authorUrl,
-          coveralls: this.props.includeCoveralls
+          codecov: this.props.includeCodecov
         }
       }, {
         local: require.resolve('../readme')
@@ -259,7 +258,7 @@ module.exports = generators.Base.extend({
       // utils
       clean: 'rimraf dist',
       lint: 'standard',
-      coveralls: 'npm run test:coverage -s && coveralls < coverage/lcov.info',
+      coveralls: 'npm run test:coverage -s && codecov < coverage/lcov.info',
       postcoveralls: 'rimraf coverage',
 
       // tests
@@ -291,8 +290,8 @@ module.exports = generators.Base.extend({
       'standard',
       'rimraf'
     ]
-    if (this.props.includeCoveralls) {
-      devDependencies.push('isparta', 'coveralls')
+    if (this.props.includeCodecov) {
+      devDependencies.push('isparta', 'codecov')
     }
     this.npmInstall(devDependencies, { 'save-dev': true })
   }

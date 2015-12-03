@@ -88,7 +88,7 @@ describe('node-mnm:app', function () {
       assert.fileContent('README.md', 'npm install --save generator-mnm')
       assert.fileContent('README.md', '[Mauricio Poppe](http://maurizzzio.com)')
       assert.fileContent('README.md', '[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg')
-      assert.fileContent('README.md', 'coveralls')
+      assert.fileContent('README.md', 'codecov')
     })
   })
 

@@ -46,10 +46,10 @@ module.exports = generators.Base.extend({
       desc: 'Website'
     })
 
-    this.option('coveralls', {
+    this.option('codecov', {
       type: Boolean,
       required: false,
-      desc: 'Include the coveralls badge'
+      desc: 'Include the codecov badge'
     })
   },
 
@@ -105,8 +105,8 @@ module.exports = generators.Base.extend({
           name: 'travis',
           checked: true
         }, {
-          name: 'coveralls',
-          checked: this.options.coveralls
+          name: 'codecov',
+          checked: this.options.codecov
         }, {
           name: 'david'
         }, {

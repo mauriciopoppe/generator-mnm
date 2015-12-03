@@ -2,7 +2,7 @@
 var b = [] 
 if (~badges.indexOf('npm')) b.push('[![NPM version][npm-image]][npm-url]')
 if (~badges.indexOf('travis')) b.push('[![Build Status][travis-image]][travis-url]')
-if (~badges.indexOf('coveralls')) b.push('[![Coveralls Status][coveralls-image]][coveralls-url]')
+if (~badges.indexOf('codecov')) b.push('[![Codecov Status][codecov-image]][codecov-url]')
 if (~badges.indexOf('david')) b.push('[![Dependency Status][depstat-image]][depstat-url]')
 if (~badges.indexOf('downloads')) b.push('[![Downloads][download-badge]][npm-url]')
 %>
@@ -36,8 +36,8 @@ import <%= camelName %> from "<%= slugName %>"
 [travis-url]: https://travis-ci.org/<%= githubAccount %>/<%= slugName %>
 [travis-image]: https://img.shields.io/travis/<%= githubAccount %>/<%= slugName %>.svg?style=flat
 
-[coveralls-url]: https://coveralls.io/r/<%= githubAccount %>/<%= slugName %>
-[coveralls-image]: https://img.shields.io/coveralls/<%= githubAccount %>/<%= slugName %>.svg?style=flat
+[codecov-url]: https://codecov.io/github/<%= githubAccount %>/<%= slugName %>
+[codecov-image]: https://img.shields.io/codecov/c/github/<%= githubAccount %>/<%= slugName %>.svg?style=flat
 
 [depstat-url]: https://david-dm.org/<%= githubAccount %>/<%= slugName %>
 [depstat-image]: https://david-dm.org/<%= githubAccount %>/<%= slugName %>.svg?style=flat
