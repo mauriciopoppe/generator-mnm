@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 'use strict'
 
-import yargs from 'yargs'
-
-import <%= camelName %> from '<%= indexPath %>'
+const yars = require('yargs')
+const <%= camelName %>  = require('<%= indexPath %>')
 
 yargs
   .usage('Usage: $0 [an argument]')

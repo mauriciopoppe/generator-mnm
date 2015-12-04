@@ -48,20 +48,23 @@ module.exports = generators.Base.extend({
     default: function () {
       this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       this.rollup = {
-        name: defined(this.options.name, this.pkg.name),
+        name: camelCase(defined(this.options.name, this.pkg.name)),
         entry: this.options.entry,
       }
-      this.rollup.dest = defined(this.options.dest, 'dist/' + camelCase(this.rollup.name)) + '.js'
+      this.rollup.dest = defined(this.options.dest, 'dist/' + this.rollup.name + '.js')
     },
 
     package: function () {
-      var merged = extend(true, {
+      var merged = extend(true, this.pkg, {
         main: this.options.dest,
         'jsnext:main': this.options.entry,
         scripts: {
-          build: 'rollup -c'
+          clean: 'rimraf dist',
+          prebuild: 'npm run clean -s',
+          build: 'rollup -c',
+          'build:watch': "watch 'npm run build' lib"
         }
-      }, this.pkg)
+      })
       this.fs.writeJSON(this.destinationPath('package.json'), merged)
     },
 
@@ -77,6 +80,8 @@ module.exports = generators.Base.extend({
   install: function () {
     if (!this.options['skip-install']) {
       this.npmInstall([
+        'watch',
+        'rimraf',
         'rollup', 
         'rollup-plugin-babel'
       ], { saveDev: true })

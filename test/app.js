@@ -57,7 +57,7 @@ describe('node-mnm:app', function () {
         'lib/index.js',
         'test/index.js'
       ])
-      assert.noFile('lib/cli.js')
+      assert.noFile('bin/cli.js')
     })
 
     it('creates package.json', function () {
@@ -75,9 +75,8 @@ describe('node-mnm:app', function () {
         bugs: {
           url: 'https://github.com/maurizzzio/generator-mnm/issues'
         },
-        files: ['dist/'],
         keywords: answers.keywords,
-        main: 'dist/index.js'
+        main: 'dist/generatorMnm.js'
       })
     })
 
@@ -101,8 +100,19 @@ describe('node-mnm:app', function () {
         .on('end', done)
     })
 
-    it('has lib/cli.js', function () {
-      assert.file('lib/cli.js')
+    it('has a cli file', function () {
+      assert.file('bin/cli.js')
+    })
+
+    it('has a valid bin path in package.json', function () {
+      assert.JSONFileContent('package.json', {
+        bin: 'bin/cli.js'
+      })
+    })
+
+    it('has the correct file contents', function () {
+      assert.fileContent('bin/cli.js', 'require(\'../dist/generatorMnm.js\')')
+      assert.fileContent('bin/cli.js', 'require(\'yargs\')')
     })
   })
 
@@ -114,8 +124,23 @@ describe('node-mnm:app', function () {
         .on('end', done)
     })
 
-    it('has lib/cli.js', function () {
-      assert.file('lib/cli.js')
+    it('has a cli file', function () {
+      assert.file('bin/cli.js')
+    })
+  })
+
+  describe('rollup + babel', function () {
+    before(function (done) {
+      helpers.run(path.join(__dirname, '../generators/app'))
+        .inDir(path.join(__dirname, '.tmp'))
+        .withPrompts(extend({includeCli: true, includeCodecov: true}, answers))
+        .on('end', done)
+    })
+
+    it('has a rollup config file', function () {
+      assert.file('rollup.config.js')
+      assert.fileContent('rollup.config.js', "entry: 'lib/index.js'")
+      assert.fileContent('rollup.config.js', "dest: 'dist/generatorMnm.js'")
     })
   })
 

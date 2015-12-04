@@ -4,6 +4,7 @@ var chalk = require('chalk')
 var yosay = require('yosay')
 var extend = require('extend')
 var slug = require('to-slug-case')
+var camelCase = require('to-camel-case')
 var isObject = require('is-object')
 var parseAuthor = require('parse-author')
 var githubUsername = require('github-username')
@@ -153,6 +154,7 @@ module.exports = generators.Base.extend({
   },
 
   default: function () {
+    var distFile = 'dist/' + camelCase(this.props.name) + '.js'
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
     this.composeWith('travis', {
       options: { 
@@ -168,7 +170,8 @@ module.exports = generators.Base.extend({
 
     this.composeWith('mnm:rollup', {
       options: { 
-        'skip-install': this.options['skip-install']
+        'skip-install': this.options['skip-install'],
+        dest: distFile
       },
     }, {
       local: require.resolve('../rollup')
@@ -205,7 +208,8 @@ module.exports = generators.Base.extend({
     if (this.props.includeCli) {
       this.composeWith('mnm:cli', {
         options: {
-          bin: 'dist/cli.js',
+          cli: 'bin/cli.js',
+          index: distFile,
           'skip-install': this.options['skip-install']
         }
       }, {
@@ -246,8 +250,7 @@ module.exports = generators.Base.extend({
       bugs: {
         url: repositoryUrl + '/issues'
       },
-      files: ['dist/'],
-      main: 'dist/index.js',
+      // main set in generators/rollup
       keywords: this.props.keywords,
       scripts: {},
       standard: {
@@ -258,7 +261,6 @@ module.exports = generators.Base.extend({
     // scripts
     extend(pkg.scripts, {
       // utils
-      clean: 'rimraf dist',
       lint: 'standard',
       codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
       postcodecov: 'rimraf coverage',
@@ -268,10 +270,7 @@ module.exports = generators.Base.extend({
       'test:coverage': 'babel-node node_modules/.bin/isparta cover test/',
       'test:watch': "watch 'npm test' test lib",
 
-      // build
-      prebuild: 'npm run clean -s',
-      build: 'babel lib --out-dir dist',
-      'build:watch': "watch 'npm run build' lib",
+      // build is in generators/rollup
 
       // deploy (preversion is used instead of prepublish)
       preversion: 'npm run lint -s && npm run test -s && npm run build -s',

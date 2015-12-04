@@ -19,8 +19,8 @@ module.exports = generators.Base.extend({
     this.option('cli', {
       type: String,
       required: false,
-      defaults: 'lib/cli.js',
-      desc: 'The destination file'
+      defaults: 'bin/cli.js',
+      desc: 'The location of your cli'
     })
 
     this.option('bin', {
