@@ -156,10 +156,10 @@ module.exports = generators.Base.extend({
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
     var travisConf = {
       before_script: ['npm run lint'],
-      script: ['npm run build'],
+      script: ['npm run build']
     }
     if (this.props.includeCodecov) {
-       travisConf['after_script'] = ['./node_modules/codecov.io/bin/codecov < coverage/coverage.json']
+       travisConf['after_script'] = ['npm run codecov']
     }
     this.composeWith('travis', {
       options: {
@@ -262,7 +262,7 @@ module.exports = generators.Base.extend({
       // utils
       clean: 'rimraf dist',
       lint: 'standard',
-      codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
+      codecov: 'npm run test:coverage -s && codecov < coverage/coverage.json',
       postcodecov: 'rimraf coverage',
 
       // tests
