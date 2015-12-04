@@ -36,7 +36,8 @@ module.exports = generators.Base.extend({
       options: { 
         'skip-install': this.options['skip-install'],
         config: {
-          presets: ['es2015-rollup']
+          presets: ['es2015'],
+          plugins: ['transform-es2015-modules-umd']
         }
       },
     }, {
@@ -70,8 +71,8 @@ module.exports = generators.Base.extend({
 
     rollupConfig: function () {
       this.fs.copyTpl(
-        this.templatePath('rollup.config.js'),
-        this.destinationPath('rollup.config.js'),
+        this.templatePath('build.js'),
+        this.destinationPath('tasks/build.js'),
         this.rollup
       )
     }
@@ -82,9 +83,8 @@ module.exports = generators.Base.extend({
       this.npmInstall([
         'watch',
         'rimraf',
-        'rollup', 
-        'rollup-plugin-babel'
-      ], { saveDev: true })
+        'rollup'
+      ], { 'save-dev': true })
     }
   }
 })

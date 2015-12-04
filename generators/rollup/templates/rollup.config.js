@@ -4,9 +4,7 @@ export default {
   entry: '<%= entry %>',
   dest: '<%= dest %>',
   format: 'umd',
-  moduleName: '<%= name %>'
-  plugins: [
-    babel()
-  ]
+  moduleName: '<%= name %>',
+  plugins: []
 }
 

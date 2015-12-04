@@ -4,7 +4,6 @@ var chalk = require('chalk')
 var yosay = require('yosay')
 var extend = require('extend')
 var slug = require('to-slug-case')
-var camelCase = require('to-camel-case')
 var isObject = require('is-object')
 var parseAuthor = require('parse-author')
 var githubUsername = require('github-username')
@@ -154,27 +153,27 @@ module.exports = generators.Base.extend({
   },
 
   default: function () {
-    var distFile = 'dist/' + camelCase(this.props.name) + '.js'
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
+    var travisConf = {
+      before_script: ['npm run lint'],
+      script: ['npm run build'],
+    }
+    if (this.props.includeCodecov) {
+       travisConf['after_script'] = ['./node_modules/codecov.io/bin/codecov < coverage/coverage.json']
+    }
     this.composeWith('travis', {
-      options: { 
-        config: {
-          before_script: ['npm run lint'],
-          script: ['npm run build'],
-          after_script: ['npm run codecov']  
-        } 
+      options: {
+        config: travisConf
       }
     }, {
       local: require.resolve('generator-travis/generators/app')
     })
 
-    this.composeWith('mnm:rollup', {
-      options: { 
-        'skip-install': this.options['skip-install'],
-        dest: distFile
-      },
+    // TODO: compose with mnm:rollup
+    this.composeWith('babel', {
+      options: { 'skip-install': this.options['skip-install'] }
     }, {
-      local: require.resolve('../rollup')
+      local: require.resolve('generator-babel/generators/app')
     })
 
     this.composeWith('git-init', {}, {
@@ -208,8 +207,7 @@ module.exports = generators.Base.extend({
     if (this.props.includeCli) {
       this.composeWith('mnm:cli', {
         options: {
-          cli: 'bin/cli.js',
-          index: distFile,
+          bin: 'dist/cli.js',
           'skip-install': this.options['skip-install']
         }
       }, {
@@ -250,7 +248,8 @@ module.exports = generators.Base.extend({
       bugs: {
         url: repositoryUrl + '/issues'
       },
-      // main set in generators/rollup
+      files: ['dist/'],
+      main: 'dist/index.js',
       keywords: this.props.keywords,
       scripts: {},
       standard: {
@@ -261,6 +260,7 @@ module.exports = generators.Base.extend({
     // scripts
     extend(pkg.scripts, {
       // utils
+      clean: 'rimraf dist',
       lint: 'standard',
       codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
       postcodecov: 'rimraf coverage',
@@ -270,7 +270,10 @@ module.exports = generators.Base.extend({
       'test:coverage': 'babel-node node_modules/.bin/isparta cover test/',
       'test:watch': "watch 'npm test' test lib",
 
-      // build is in generators/rollup
+      // build
+      prebuild: 'npm run clean -s',
+      build: 'babel lib --out-dir dist',
+      'build:watch': "watch 'npm run build' lib",
 
       // deploy (preversion is used instead of prepublish)
       preversion: 'npm run lint -s && npm run test -s && npm run build -s',

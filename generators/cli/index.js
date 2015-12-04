@@ -19,7 +19,7 @@ module.exports = generators.Base.extend({
     this.option('cli', {
       type: String,
       required: false,
-      defaults: 'bin/cli.js',
+      defaults: 'lib/cli.js',
       desc: 'The location of your cli'
     })
 
@@ -75,7 +75,7 @@ module.exports = generators.Base.extend({
     }
   },
 
-  installs: function () {
+  install: function () {
     if (!this.options['skip-install']) {
       this.npmInstall(['yargs'], { save: true })
     }  

@@ -76,7 +76,7 @@ describe('node-mnm:app', function () {
           url: 'https://github.com/maurizzzio/generator-mnm/issues'
         },
         keywords: answers.keywords,
-        main: 'dist/generatorMnm.js'
+        main: 'dist/index.js'
       })
     })
 
@@ -101,18 +101,18 @@ describe('node-mnm:app', function () {
     })
 
     it('has a cli file', function () {
-      assert.file('bin/cli.js')
+      assert.file('lib/cli.js')
     })
 
     it('has a valid bin path in package.json', function () {
       assert.JSONFileContent('package.json', {
-        bin: 'bin/cli.js'
+        bin: 'dist/cli.js'
       })
     })
 
     it('has the correct file contents', function () {
-      assert.fileContent('bin/cli.js', 'require(\'../dist/generatorMnm.js\')')
-      assert.fileContent('bin/cli.js', 'require(\'yargs\')')
+      assert.fileContent('lib/cli.js', '\'./index.js\'')
+      assert.fileContent('lib/cli.js', '\'yargs\'')
     })
   })
 
@@ -125,24 +125,24 @@ describe('node-mnm:app', function () {
     })
 
     it('has a cli file', function () {
-      assert.file('bin/cli.js')
+      assert.file('lib/cli.js')
     })
   })
 
-  describe('rollup + babel', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../generators/app'))
-        .inDir(path.join(__dirname, '.tmp'))
-        .withPrompts(extend({includeCli: true, includeCodecov: true}, answers))
-        .on('end', done)
-    })
+  // describe('rollup + babel', function () {
+  //   before(function (done) {
+  //     helpers.run(path.join(__dirname, '../generators/app'))
+  //       .inDir(path.join(__dirname, '.tmp'))
+  //       .withPrompts(extend({includeCli: true, includeCodecov: true}, answers))
+  //       .on('end', done)
+  //   })
 
-    it('has a rollup config file', function () {
-      assert.file('rollup.config.js')
-      assert.fileContent('rollup.config.js', "entry: 'lib/index.js'")
-      assert.fileContent('rollup.config.js', "dest: 'dist/generatorMnm.js'")
-    })
-  })
+  //   it('has a rollup config file', function () {
+  //     assert.file('rollup.config.js')
+  //     assert.fileContent('rollup.config.js', "entry: 'lib/index.js'")
+  //     assert.fileContent('rollup.config.js', "dest: 'dist/generatorMnm.js'")
+  //   })
+  // })
 
   // coveralls needs to checked on runtime
 })
