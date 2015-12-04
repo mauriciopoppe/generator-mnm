@@ -156,7 +156,7 @@ module.exports = generators.Base.extend({
     // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
     var travisConf = {
       before_script: ['npm run lint'],
-      script: ['npm run build']
+      script: ['npm run build'],
     }
     if (this.props.includeCodecov) {
        travisConf['after_script'] = ['npm run codecov']
@@ -248,7 +248,6 @@ module.exports = generators.Base.extend({
       bugs: {
         url: repositoryUrl + '/issues'
       },
-      files: ['dist/'],
       main: 'dist/index.js',
       keywords: this.props.keywords,
       scripts: {},
@@ -262,7 +261,7 @@ module.exports = generators.Base.extend({
       // utils
       clean: 'rimraf dist',
       lint: 'standard',
-      codecov: 'npm run test:coverage -s && codecov < coverage/coverage.json',
+      codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
       postcodecov: 'rimraf coverage',
 
       // tests
