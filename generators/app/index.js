@@ -166,10 +166,12 @@ module.exports = generators.Base.extend({
       local: require.resolve('generator-travis/generators/app')
     })
 
-    this.composeWith('babel', {
-      options: { 'skip-install': this.options['skip-install'] }
+    this.composeWith('mnm:rollup', {
+      options: { 
+        'skip-install': this.options['skip-install']
+      },
     }, {
-      local: require.resolve('generator-babel/generators/app')
+      local: require.resolve('../rollup')
     })
 
     this.composeWith('git-init', {}, {
