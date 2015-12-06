@@ -171,7 +171,12 @@ module.exports = generators.Base.extend({
 
     // TODO: compose with mnm:rollup
     this.composeWith('babel', {
-      options: { 'skip-install': this.options['skip-install'] }
+      options: { 
+        'skip-install': this.options['skip-install'],
+        config: {
+          plugins: ['add-module-exports']
+        }
+      },
     }, {
       local: require.resolve('generator-babel/generators/app')
     })

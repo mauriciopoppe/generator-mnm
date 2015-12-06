@@ -73,5 +73,9 @@ describe('node-npm on CI', function () {
         function (cb) { handleProcess('node dist/cli.js awesome', cb) }
       ], done)
     })
-  });
-});
+
+    it('should be compatible with commonjs\' require', function (done) {
+      handleProcess('node -e "require(\'./dist/index.js\')(\'awesome\')"', done)
+    })
+  })
+})
