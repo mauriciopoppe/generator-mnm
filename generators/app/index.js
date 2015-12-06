@@ -254,11 +254,13 @@ module.exports = generators.Base.extend({
         url: repositoryUrl + '/issues'
       },
       main: 'dist/index.js',
+      jsnext:main: 'lib/index.js',
       keywords: this.props.keywords,
       scripts: {},
       standard: {
         ignore: ['dist/']
-      }
+      },
+      files: ['dist/']
     }
 
     // scripts
