@@ -44,6 +44,7 @@ $ yo mnm
 - [substack/tape](https://github.com/substack/tape) for testing
 - [bcoe/yargs](https://github.com/bcoe/yargs) to parse cli arguments (optional)
 - [douglasduteil/isparta](https://github.com/douglasduteil/isparta) as the code coverage tool for ES6 (optional)
+- [jsnext:main](https://github.com/rollup/rollup/wiki/jsnext:main) field included if you want to bundle your library using a ES6 module bundler like [Rollup](https://github.com/rollup/rollup)
 - npm scripts as the build system
 
 ## Example
@@ -60,7 +61,7 @@ Common tasks
 | `npm run lint` | Lints the code with [standard](http://standardjs.com) |
 | `npm run build` | Transforms the ES6 code located at `lib/` with [Babel](https://babeljs.io) (output goes `dist/`)| 
 | `npm run clean` | Removes all the files inside the `dist/` directory using [rimraf](https://github.com/isaacs/rimraf)|
-| `npm run coveralls` | Uploads the coverage report to Coveralls, should be run on travis only |
+| `npm run codecov` | Uploads the coverage report to Codecov.io, should be run on Travis |
 | `npm run deploy` | Syncs the repo with your remote i.e. `git pull && git push` |
 
 Watching files
@@ -75,7 +76,7 @@ Pre/Post hooks
 | task | description |
 | --- | --- |
 | `npm run prebuild` | Makes sure that `dist/` is empty |
-| `npm run preversion` | Lints the code, run tests and transforms the code |
+| `npm run preversion` | Lints the code, runs tests and transforms the code |
 | `npm run postversion` | Pushes your code to GitHub (including tags) |
 
 ### Useful npm commands that you should know
