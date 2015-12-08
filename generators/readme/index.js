@@ -69,6 +69,8 @@ module.exports = generators.Base.extend({
     this.props.authorName = defined(authorInfo.name, this.options.author)
     this.props.authorEmail = authorInfo.email
     this.props.authorUrl = defined(authorInfo.url, this.options.website)
+
+    this.fs.writeJSON(this.destinationPath('package.json'), pkg)
   },
 
   prompting: {
@@ -138,3 +140,4 @@ module.exports = generators.Base.extend({
     )
   }
 })
+

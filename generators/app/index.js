@@ -152,115 +152,27 @@ module.exports = generators.Base.extend({
     }
   },
 
-  default: function () {
-    // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
-    var travisConf = {
-      before_script: ['npm run lint'],
-      script: ['npm run build'],
-    }
-    if (this.props.includeCodecov) {
-       travisConf['after_script'] = ['npm run codecov']
-    }
-    this.composeWith('travis', {
-      options: {
-        config: travisConf
-      }
-    }, {
-      local: require.resolve('generator-travis/generators/app')
-    })
-
-    // TODO: compose with mnm:rollup
-    this.composeWith('babel', {
-      options: { 
-        'skip-install': this.options['skip-install'],
-        config: {
-          plugins: ['add-module-exports']
-        }
-      },
-    }, {
-      local: require.resolve('generator-babel/generators/app')
-    })
-
-    this.composeWith('git-init', {}, {
-      local: require.resolve('generator-git-init/generators/app')
-    })
-    
-    if (!this.pkg.license) {
-      this.composeWith('license', {
-        options: {
-          name: this.props.authorName,
-          email: this.props.authorEmail,
-          website: this.props.authorUrl
-        }
-      }, {
-        local: require.resolve('generator-license/app')
-      })
-    }
-
-    this.composeWith('mnm:boilerplate', {
-      options: { }
-    }, {
-      local: require.resolve('../boilerplate')
-    })
-
-    this.composeWith('mwm:git', {
-      options: { }
-    }, {
-      local: require.resolve('../git')
-    })
-
-    if (this.props.includeCli) {
-      this.composeWith('mnm:cli', {
-        options: {
-          bin: 'dist/cli.js',
-          'skip-install': this.options['skip-install']
-        }
-      }, {
-        local: require.resolve('../cli')
-      })
-    }
-
-    if (!this.fs.exists(this.destinationPath('README.md'))) {
-      this.composeWith('mnm:readme', {
-        options: {
-          name: this.props.name,
-          description: this.props.description,
-          githubAccount: this.props.githubAccount,
-          author: this.props.authorName,
-          website: this.props.authorUrl,
-          codecov: this.props.includeCodecov
-        }
-      }, {
-        local: require.resolve('../readme')
-      })
-    }
-  },
-
   writing: function () {
     // Re-read the content at this point because a composed generator might modify it.
     var currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-    var repositoryUrl = 'https://github.com/' + this.props.githubAccount + '/' + slug(this.props.name)
     var pkg = {
       name: slug(this.props.name),
       version: '0.0.0',
       description: this.props.description,
-      homepage: this.props.homepage || repositoryUrl,
+      homepage: this.props.homepage,
       author: {
         name: this.props.authorName,
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
-      bugs: {
-        url: repositoryUrl + '/issues'
-      },
+      files: ['/dist', '/lib'],
       main: 'dist/index.js',
       'jsnext:main': 'lib/index.js',
       keywords: this.props.keywords,
-      scripts: {},
       standard: {
-        ignore: ['dist/']
+        ignore: ['/dist']
       },
-      files: ['dist/']
+      scripts: {}
     }
 
     // scripts
@@ -291,7 +203,90 @@ module.exports = generators.Base.extend({
     this.fs.writeJSON('package.json', extend(true, pkg, currentPkg))
   },
 
-  installs: function () {
+  default: function () {
+    // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
+    var travisConf = {
+      before_script: ['npm run lint'],
+      script: ['npm run build'],
+    }
+    if (this.props.includeCodecov) {
+       travisConf['before_install'] = ['npm install codecov.io']
+       travisConf['after_script'] = ['npm run codecov']
+    }
+    this.composeWith('travis', {
+      options: {
+        config: travisConf
+      }
+    }, {
+      local: require.resolve('generator-travis/generators/app')
+    })
+
+    // TODO: compose with mnm:rollup
+    this.composeWith('babel', {
+      options: {
+        'skip-install': this.options['skip-install'],
+        config: {
+          plugins: ['add-module-exports']
+        }
+      },
+    }, {
+      local: require.resolve('generator-babel/generators/app')
+    })
+
+    this.composeWith('git-init', {}, {
+      local: require.resolve('generator-git-init/generators/app')
+    })
+
+    this.composeWith('mwm:git', {
+      options: {
+        githubAccount: this.props.githubAccount
+      }
+    }, {
+      local: require.resolve('../git')
+    })
+
+    this.composeWith('mnm:boilerplate', {}, {
+      local: require.resolve('../boilerplate')
+    })
+
+    if (this.props.includeCli) {
+      this.composeWith('mnm:cli', {
+        options: {
+          bin: 'dist/cli.js',
+          'skip-install': this.options['skip-install']
+        }
+      }, {
+        local: require.resolve('../cli')
+      })
+    }
+
+    this.composeWith('license', {
+      options: {
+        name: this.props.authorName,
+        email: this.props.authorEmail,
+        website: this.props.authorUrl
+      }
+    }, {
+      local: require.resolve('generator-license/app')
+    })
+
+    if (!this.fs.exists(this.destinationPath('README.md'))) {
+      this.composeWith('mnm:readme', {
+        options: {
+          name: this.props.name,
+          description: this.props.description,
+          githubAccount: this.props.githubAccount,
+          author: this.props.authorName,
+          website: this.props.authorUrl,
+          codecov: this.props.includeCodecov
+        }
+      }, {
+        local: require.resolve('../readme')
+      })
+    }
+  },
+
+  installing: function () {
     var devDependencies = [
       'tape',
       'tap-spec',
@@ -301,7 +296,8 @@ module.exports = generators.Base.extend({
       'rimraf'
     ]
     if (this.props.includeCodecov) {
-      devDependencies.push('isparta', 'codecov.io')
+      // codecov.io is installed only on travis
+      devDependencies.push('isparta')
     }
     this.npmInstall(devDependencies, { 'save-dev': true })
   }

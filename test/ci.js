@@ -3,10 +3,10 @@
  */
 'use strict';
 
-var path = require('path');
-var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
-var exec = require('child_process').exec;
+var path = require('path')
+var assert = require('yeoman-generator').assert
+var helpers = require('yeoman-generator').test
+var exec = require('child_process').exec
 var series = require('async-series')
 
 describe('node-npm on CI', function () {
@@ -47,6 +47,38 @@ describe('node-npm on CI', function () {
   })
 
   describe('with default options', function () {
+    it('should have the required files in package.json', function () {
+      assert.file('package.json')
+      assert.JSONFileContent('package.json', {
+        name: 'generator-mnm-example',
+        version: '0.0.0',
+        main: 'dist/index.js',
+        'jsnext:main': 'lib/index.js',
+        files: ['/dist', '/lib'],
+        license: 'MIT'
+      })
+    })
+
+    it('should have the required contents in .babelrc', function () {
+      assert.file('.babelrc')
+      assert.JSONFileContent('.babelrc', {
+        presets: ['es2015'],
+        plugins: ['add-module-exports']
+      })
+    })
+
+    it('should have the required contents in .travis.yml', function () {
+      assert.file('.travis.yml')
+      assert.fileContent('.travis.yml', 'npm run lint')
+      assert.fileContent('.travis.yml', 'npm run build')
+      assert.fileContent('.travis.yml', 'npm run codecov')
+    })
+
+    it('should have the required contents in LICENSE', function () {
+      assert.file('LICENSE')
+      assert.fileContent('LICENSE', 'MIT')
+    })
+
     it('should execute package.json scripts', function (done) {
       series([
         function (cb)  { handleProcess('npm test', cb)  },

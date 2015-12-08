@@ -31,6 +31,9 @@ module.exports = generators.Base.extend({
   },
 
   writing: function () {
+    // generates
+    //  lib/index.js (if it's not overriden)
+    //  test/index.js (if it's not overriden)
     var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
     var indexPath = path.join.apply(null, [
       this.destinationRoot(),
@@ -62,3 +65,4 @@ module.exports = generators.Base.extend({
     )
   }
 })
+

@@ -39,7 +39,7 @@ module.exports = generators.Base.extend({
   },
 
   writing: {
-    package: function () {
+    pkg: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       // value
       //  - pkg.bin if pkb.bin was already in package.json
