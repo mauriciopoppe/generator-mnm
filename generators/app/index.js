@@ -181,7 +181,6 @@ module.exports = generators.Base.extend({
       clean: 'rimraf dist',
       lint: 'standard',
       codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
-      postcodecov: 'rimraf coverage',
 
       // tests
       test: 'babel-tape-runner test | tap-spec',
