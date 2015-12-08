@@ -72,11 +72,9 @@ describe('node-mnm:app', function () {
           email: answers.authorEmail,
           url: answers.authorUrl
         },
-        bugs: {
-          url: 'https://github.com/maurizzzio/generator-mnm/issues'
-        },
         keywords: answers.keywords,
-        main: 'dist/index.js'
+        main: 'dist/index.js',
+        files: ['/dist', '/lib']
       })
     })
 
