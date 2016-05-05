@@ -1,7 +1,6 @@
 'use strict'
 
 var path = require('path')
-var mockery = require('mockery')
 var extend = require('extend')
 var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
@@ -24,7 +23,7 @@ describe('node-mnm:app', function () {
   describe('running on new project', function () {
     before(function () {
       return helpers.run(path.join(__dirname, '../../generators/app'))
-        // .inDir(path.join(__dirname, '.tmp'))
+        .inDir(path.join(__dirname, '.tmp'))
         .withPrompts(answers)
         .toPromise()
     })

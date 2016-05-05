@@ -50,9 +50,7 @@
     "is-object": "^1.0.1",
     "parse-author": "^1.0.0",
     "relative": "^3.0.2",
-    "to-camel-case": "^1.0.0",
     "to-case": "^2.0.0",
-    "to-slug-case": "^1.0.0",
     "yeoman-generator": "^0.22.6",
     "yosay": "^1.0.2"
   },

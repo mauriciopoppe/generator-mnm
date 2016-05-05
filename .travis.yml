@@ -7,7 +7,6 @@ env:
   - secure: VqS4f6ybZSWQlJhKRZj6wVWhH6ywCaRo40gDQGd2xmcGUK0JRjDA6+tIQUgpGGFWlpCsm0EgtmTM18RzrfZceOr8o2NAMWMKENAo/8vu8JIojyxVD9th6dWW9JGojgoQaSVUpT7U91wena18qnGjU17vlWUyLEszln4o/RGYrGfEewG1wheYHNYoSwcQZJ8i7+wirRMFkLYB5GrYZaEWTXHg37GILdq+0oA5CH0XgYBPxLR4+u5w88Zno4kw1AdGaNvtywTJrHYAC5Wv6+lWuPTC8905FXqaEqUswYUYzYMy8+1NpttgDchGnpqKO8JdHhXhxKYdUPEg6PgIl16cYEx3BBAwdkZWt2412n2/4qZ6Oi03mR8zjpYt8T9T5t/H43UG3LO3+tDYqAoqyQkxwwrdz8duJp8lfkYWs5wo+U/mZMkNNXM1fmBoywNPyihjBDo8IUtMvNIkIzRRoG3DfKtmQKJHJCXueroOyPXGmiR1X49qd+04xAI9jIikB6SzAUARzK/4KqdsWeKSsbp2nr1iqj7Iltm9hEsJ2VMSfmeEn0RSlGE3m5XdXEhLXzK3D1J9bJyIyheDvuz42C9S1HCTuz1krGMGOaRIlsOrlHh38Zf/9x5lHKT4E6oqOPcQDo2rrox8zbvmWbYYFzmck7T1yLbP3BoU80afEptR4lg=
 
 node_js:
-- v4
 - v5
 before_install: if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
 script:
