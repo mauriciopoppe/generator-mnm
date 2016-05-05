@@ -10,7 +10,7 @@ Options:
 - license
 - author
 - website
-- includeCoveralls (Boolean)
+- coverage (Boolean)
 
 Note that you might not need to send any of these options, these options will be gathered from an existing package.json file
 
@@ -25,8 +25,8 @@ this.composeWith('mnm:readme', {
     name: 'name',
     description: 'description',
     license: 'MIT',
-    author: 'Mauricio Poppe',
-    website: 'maurizzzio.com'
+    author: 'example',
+    website: 'example.com'
   }
 }, {
   local: require.resolve('generator-mnm/generators/boilerplate')
@@ -36,7 +36,7 @@ this.composeWith('mnm:readme', {
 From the command line
 
 ```sh
-yo mnm:readme --name=name --description=description --license=MIT --author="Mauricio Poppe" --website="maurizzzio.com"
+yo mnm:readme --name=name --description=description --license=MIT --author=example --website="example.com"
 ```
 
 Again you could just call `yo mnm:readme` and have all of the options filled

@@ -2,37 +2,33 @@
 
 Generates a cli file (argument parser: [yargs](https://github.com/bcoe/yargs)) and modifies your package.json `dist` property 
 
+**NOTE: this assumes that the project has Babel installed**
+
 Options:
 
-### cli
+### in
 
 Type: String
 
-Default: `'lib/cli.js'`
+Default: `'bin/index.es6.js'`
 
 (optional) The destination file to copy the cli template
 
-### bin
+### out
 
 Type: String
 
-Default: `'lib/cli.js'`
+Default: `'bin/index.js'`
 
 (optional) The string to put in the package.json `bin` property
 
-### index 
+### src
 
 Type: String
 
-Default: 'lib/index.js'
+Default: `'dist/index.js'`
 
-(optional) The location of the project index file
-
-### name
-
-Type: String
-
-(optional) The name to be used in the generated cli file to refer the index file i.e. the name of the project, if you don't provide this option it will be gathered from the `name` property of an existing package.json file, in any other case defaults to `indexFile`
+(optional) The location of the project source file (compiled)
 
 ### 'skip-install'
 
@@ -57,62 +53,17 @@ Directory structure
 
 ```
 package.json
-lib/cli.js
+bin/index.es6.js
 ```
 
 ```js
 // packag.json
 {
   ...
-  bin: 'lib/cli.js'
-  ...
-}
-```
-
-A flat structure can be generated with
-
-```sh
-$ npm init
-$ yo mnm:boilerplate --index=index.js --cli=cli.js 
-```
-
-Directory structure
-
-```
-package.json
-cli.js
-```
-
-```sh
-// package.json
-{
-  ...
-  bin: 'cli.js'
-  ...
-}
-```
-
-If the cli will be transpiled you can pass the `bin` option to be written in
-package.json
-
-```sh
-$ npm init
-$ yo mnm:boilerplate --bin=dist/cli.js
-```
-
-Directory structure
-
-```
-package.json
-lib/cli.js
-```
-
-```js
-// package.json
-{
-  ...
-  bin: 'dist/cli.js'
-  ...
+  bin: 'bin/index.js',
+  scripts: {
+    'build:cli': 'babel bin/index.es6.js -o bin/index.js' 
+  }
 }
 ```
 
