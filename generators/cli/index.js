@@ -10,42 +10,39 @@ module.exports = generators.Base.extend({
   constructor: function () {
     generators.Base.apply(this, arguments)
 
-    this.option('name', {
+    this.option('in', {
       type: String,
       required: false,
-      desc: 'The module name'
+      defaults: 'bin/index.es6.js',
+      desc: 'The location of cli source code'
     })
 
-    this.option('cli', {
+    this.option('out', {
       type: String,
       required: false,
-      defaults: 'lib/cli.js',
-      desc: 'The location of your cli'
-    })
-
-    this.option('bin', {
-      type: String,
-      required: false,
-      defaults: undefined,
+      defaults: 'bin/index.js',
       desc: 'The path to your cli written in the bin property of package.json'
     })
 
-    this.option('index', {
+    this.option('src', {
       type: String,
       required: false,
-      defaults: 'lib/index.js',
-      desc: 'The location of the project\'s index file'
+      defaults: 'dist/index.js',
+      desc: 'The location of the project\'s source file'
     })
   },
 
   writing: {
     pkg: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-      // value
+      pkg.scripts = pkg.scripts || {}
+      pkg.scripts['build:cli'] = pkg.scripts['build:cli'] || 'babel ' + this.options.in + ' -o ' + this.options.out
+
+      // pkg.bin value
       //  - pkg.bin if pkb.bin was already in package.json
       //  - options.bin (an override to options.cli, useful when the cli file
       //  is transpiled)
-      pkg.bin = defined(pkg.bin, this.options.bin, this.options.cli)
+      pkg.bin = defined(pkg.bin, this.options.out, this.options.in)
       this.fs.writeJSON(this.destinationPath('package.json'), pkg)
     },
 
@@ -53,11 +50,11 @@ module.exports = generators.Base.extend({
       var pkg = this.fs.readJSON(this.destinationPath('package.json'))
       var indexPath = path.join.apply(null, [
         this.destinationRoot(),
-        this.options.index
+        this.options.src
       ])
       var cliPath = path.join.apply(null, [
         this.destinationRoot(),
-        this.options.cli
+        this.options.in
       ])
 
       var indexPath = relative(cliPath, indexPath)
@@ -68,16 +65,18 @@ module.exports = generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('cli.js'),
         this.destinationPath(cliPath), {
-          camelName: camelCase(defined(this.options.name, pkg.name, 'indexFile')),
+          camelName: camelCase(
+            defined(pkg.name, path.basename(process.cwd()))
+          ),
           indexPath: indexPath
         }
       )
     }
   },
 
-  install: function () {
+  installing: function () {
     if (!this.options['skip-install']) {
       this.npmInstall(['yargs'], { save: true })
-    }  
+    }
   }
 })

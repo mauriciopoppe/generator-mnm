@@ -1,0 +1,10 @@
+{
+  "name": "generator-mnm",
+  "description": "A node module generator",
+  "homepage": "http://generator-mnm.com",
+  "githubAccount": "maurizzzio",
+  "authorName": "Mauricio Poppe",
+  "authorEmail": "mauricio.poppe@gmail.com",
+  "authorUrl": "http://maurizzzio.com",
+  "keywords": ["foo", "bar"]
+}

@@ -14,9 +14,8 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "mocha test/app.js",
-    "test:ci": "mocha test/ci.js",
-    "lint": "standard"
+    "test": "mocha test/generators/*.js",
+    "test:ci": "mocha test/ci/index.js"
   },
   "files": [
     "generators",

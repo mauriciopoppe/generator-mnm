@@ -125,7 +125,7 @@ module.exports = generators.Base.extend({
       }.bind(this))
     },
 
-    addOn: function () {
+    addOns: function () {
       // additional stuff
       // - cli
       // - code coverage
@@ -138,14 +138,14 @@ module.exports = generators.Base.extend({
         default: false
       }, {
         type: 'confirm',
-        name: 'includeCodecov',
+        name: 'includeCoverage',
         message: 'Do you need a code coverage tool?',
         default: false
       }]
       this.prompt(prompts, function (props) {
         this.props = extend(this.props, {
           includeCli: this.options.cli,
-          includeCodecov: this.options.codecov
+          includeCoverage: this.options.coverage
         }, props)
         done()
       }.bind(this))
@@ -165,98 +165,60 @@ module.exports = generators.Base.extend({
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
-      files: ['/dist', '/lib'],
+      files: ['/dist', '/src'],
       main: 'dist/index.js',
-      'jsnext:main': 'lib/index.js',
+      'jsnext:main': 'src/index.js',
       keywords: this.props.keywords,
-      standard: {
-        ignore: ['/dist']
-      },
       scripts: {}
     }
 
     // scripts
-    extend(pkg.scripts, {
-      // utils
-      clean: 'rimraf dist',
-      lint: 'standard',
-      codecov: 'npm run test:coverage -s && codecov < coverage/lcov.info',
-
-      // tests
-      test: 'babel-tape-runner test | tap-spec',
-      'test:coverage': 'babel-node node_modules/.bin/isparta cover test/',
-      'test:watch': "watch 'npm test' test lib",
-
-      // build
-      prebuild: 'npm run clean -s',
-      build: 'babel lib --out-dir dist',
-      'build:watch': "watch 'npm run build' lib",
-
-      // deploy (preversion is used instead of prepublish)
-      preversion: 'npm run lint -s && npm run test -s && npm run build -s',
-      postversion: 'git push origin master --follow-tags',
-      deploy: 'git pull --rebase origin master && git push origin master'
-    })
+    extend(pkg.scripts, { lint: 'standard' })
 
     // Let's extend package.json so we're not overwriting user previous fields
     this.fs.writeJSON('package.json', extend(true, pkg, currentPkg))
   },
 
   default: function () {
-    // taken from the awesome https://github.com/bucaran/generator-rise/blob/master/app/index.js
-    var travisConf = {
-      before_script: ['npm run lint'],
-      script: ['npm run build'],
-    }
-    if (this.props.includeCodecov) {
-       travisConf['before_install'] = ['npm install codecov.io']
-       travisConf['after_script'] = ['npm run codecov']
-    }
-    this.composeWith('travis', {
-      options: {
-        config: travisConf
-      }
-    }, {
-      local: require.resolve('generator-travis/generators/app')
-    })
-
     // TODO: compose with mnm:rollup
-    this.composeWith('babel', {
-      options: {
-        'skip-install': this.options['skip-install'],
-        config: {
-          plugins: ['add-module-exports']
-        }
-      },
-    }, {
-      local: require.resolve('generator-babel/generators/app')
-    })
 
+    // git init
     this.composeWith('git-init', {}, {
       local: require.resolve('generator-git-init/generators/app')
     })
 
+    // .gitignore and .gitattributes
     this.composeWith('mwm:git', {
       options: {
         githubAccount: this.props.githubAccount
       }
+    }, { local: require.resolve('../git') })
+
+    // src/index.js and test/index.js
+    this.composeWith('mnm:src', {
+      options: {
+        'skip-install': this.options['skip-install']
+      }
     }, {
-      local: require.resolve('../git')
+      local: require.resolve('../src')
     })
+    this.composeWith('mnm:test', { 
+      options: {
+        'skip-install': this.options['skip-install'],
+        coverage: this.props.includeCoverage
+      }
+    }, { local: require.resolve('../test') })
 
-    this.composeWith('mnm:boilerplate', {}, {
-      local: require.resolve('../boilerplate')
-    })
-
+    // cli powered by yargs
     if (this.props.includeCli) {
       this.composeWith('mnm:cli', {
         options: {
-          bin: 'dist/cli.js',
-          'skip-install': this.options['skip-install']
+          'skip-install': this.options['skip-install'],
+          in: 'bin/index.es6.js',
+          out: 'bin/index.js',
+          babel: true
         }
-      }, {
-        local: require.resolve('../cli')
-      })
+      }, { local: require.resolve('../cli') })
     }
 
     this.composeWith('license', {
@@ -277,27 +239,12 @@ module.exports = generators.Base.extend({
           githubAccount: this.props.githubAccount,
           author: this.props.authorName,
           website: this.props.authorUrl,
-          codecov: this.props.includeCodecov
+          codecov: this.props.includeCoverage
         }
       }, {
         local: require.resolve('../readme')
       })
     }
-  },
-
-  installing: function () {
-    var devDependencies = [
-      'tape',
-      'tap-spec',
-      'babel-tape-runner',
-      'watch',
-      'standard',
-      'rimraf'
-    ]
-    if (this.props.includeCodecov) {
-      // codecov.io is installed only on travis
-      devDependencies.push('isparta')
-    }
-    this.npmInstall(devDependencies, { 'save-dev': true })
   }
+
 })

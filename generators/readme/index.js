@@ -1,4 +1,5 @@
 'use strict'
+var githubUsername = require('github-username')
 var camelCase = require('to-camel-case')
 var slugCase = require('to-slug-case')
 var generators = require('yeoman-generator')
@@ -127,8 +128,8 @@ module.exports = generators.Base.extend({
     var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
 
     this.props = extend(this.props, {
-      name: defined(pkg.name, this.options.name),
-      description: defined(pkg.description, this.options.description),
+      name: defined(pkg.name, this.options.name, 'placeModuleNameHere'),
+      description: defined(pkg.description, this.options.description, ''),
       license: defined(pkg.license, this.options.licence, 'MIT')
     })
     this.props.slugName = slugCase(this.props.name)

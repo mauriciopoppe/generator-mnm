@@ -21,7 +21,7 @@ npm install --save <%= slugName %>
 ## Usage
 
 ```js
-import <%= camelName %> from "<%= slugName %>"
+import <%= camelName %> from '<%= slugName %>'
 
 <%= camelName %>()
 ```

@@ -19,8 +19,8 @@ describe('node-npm on CI', function () {
     })
   }
 
-  before(function (afterInstall) {
-    helpers.run(path.join(__dirname, '../generators/app'))
+  before(function (done) {
+    helpers.run(path.join(__dirname, '../../generators/app'))
       .inDir(path.join(__dirname, '.tmp'))
       .withOptions({ skipInstall: false })
       .withPrompts({
@@ -35,7 +35,7 @@ describe('node-npm on CI', function () {
         
         // addons
         includeCli: true,
-        includeCodecov: true,
+        includeCoverage: true,
 
         // generator-license
         license: 'MIT',
@@ -43,7 +43,7 @@ describe('node-npm on CI', function () {
         // ./generators/readme
         badges: ['npm', 'travis', 'codecov', 'david', 'downloads']
       })
-      .on('end', afterInstall)
+      .on('end', done)
   })
 
   describe('with default options', function () {
@@ -53,8 +53,8 @@ describe('node-npm on CI', function () {
         name: 'generator-mnm-example',
         version: '0.0.0',
         main: 'dist/index.js',
-        'jsnext:main': 'lib/index.js',
-        files: ['/dist', '/lib'],
+        'jsnext:main': 'src/index.js',
+        files: ['/dist', '/src'],
         license: 'MIT'
       })
     })
@@ -69,9 +69,8 @@ describe('node-npm on CI', function () {
 
     it('should have the required contents in .travis.yml', function () {
       assert.file('.travis.yml')
-      assert.fileContent('.travis.yml', 'npm run lint')
       assert.fileContent('.travis.yml', 'npm run build')
-      assert.fileContent('.travis.yml', 'npm run codecov')
+      assert.fileContent('.travis.yml', 'npm run coverage')
     })
 
     it('should have the required contents in LICENSE', function () {
@@ -82,27 +81,24 @@ describe('node-npm on CI', function () {
     it('should execute package.json scripts', function (done) {
       series([
         function (cb)  { handleProcess('npm test', cb)  },
-        function (cb)  { handleProcess('npm run lint', cb)  },
         function (cb)  { handleProcess('npm run build', cb)  },
-        // all in one
-        function (cb)  { handleProcess('npm run preversion', cb)  },
       ], done)
     })
 
-    it('should generate a codecov file', function (done) {
-      series([
-        function (cb) { handleProcess('npm run test:coverage', cb) },
-        function (cb) {
-          assert.file([ 'coverage/coverage.json' ])
-          cb(null)
-        }
-      ], done)
-    })
+    // it('should generate a codecov file', function (done) {
+    //   series([
+    //     function (cb) { handleProcess('npm run coverage', cb) },
+    //     function (cb) {
+    //       assert.file([ 'coverage/coverage.json' ])
+    //       cb(null)
+    //     }
+    //   ], done)
+    // })
 
     it('should have an executable cli file', function (done) {
       series([
-        function (cb) { handleProcess('npm run build', cb) },
-        function (cb) { handleProcess('node dist/cli.js awesome', cb) }
+        function (cb) { handleProcess('npm run build:cli', cb) },
+        function (cb) { handleProcess('node bin/index.js awesome', cb) }
       ], done)
     })
 

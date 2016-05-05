@@ -19,31 +19,13 @@ var answers = {
 describe('node-mnm:app', function () {
   this.timeout(10000)
 
-  before(function () {
-    mockery.enable({warnOnUnregistered: false})
-
-    mockery.registerMock('npm-name', function (name, cb) {
-      cb(null, true)
-    })
-
-    mockery.registerMock('github-username', function (name, cb) {
-      cb(null, 'unicornUser')
-    })
-
-    mockery.registerMock(
-      require.resolve('generator-license/app'),
-      helpers.createDummyGenerator()
-    )
-  })
-
-  after(function () {
-    mockery.disable()
-  })
+  require('../helpers/set-up-mockery')(before, after)
 
   describe('running on new project', function () {
     before(function (done) {
-      helpers.run(path.join(__dirname, '../generators/app'))
+      helpers.run(path.join(__dirname, '../../generators/app'))
         .inDir(path.join(__dirname, '.tmp'))
+        // .withOptions({ 'skip-install': true })
         .withPrompts(answers)
         .on('end', done)
     })
@@ -54,10 +36,9 @@ describe('node-mnm:app', function () {
         '.gitignore',
         '.gitattributes',
         'README.md',
-        'lib/index.js',
+        'src/index.js',
         'test/index.js'
       ])
-      assert.noFile('bin/cli.js')
     })
 
     it('creates package.json', function () {
@@ -74,56 +55,18 @@ describe('node-mnm:app', function () {
         },
         keywords: answers.keywords,
         main: 'dist/index.js',
-        files: ['/dist', '/lib']
+        files: ['/dist', '/src']
       })
     })
 
     it('creates and fill contents in README.md', function () {
       assert.file('README.md')
-      assert.fileContent('README.md', 'import generatorMnm from "generator-mnm"')
+      assert.fileContent('README.md', 'import generatorMnm from \'generator-mnm\'')
       assert.fileContent('README.md', '> A node module generator')
       assert.fileContent('README.md', 'npm install --save generator-mnm')
       assert.fileContent('README.md', '[Mauricio Poppe](http://maurizzzio.com)')
       assert.fileContent('README.md', '[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg')
       assert.fileContent('README.md', 'codecov')
-    })
-  })
-
-  describe('--cli', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../generators/app'))
-        .inDir(path.join(__dirname, '.tmp'))
-        .withOptions({cli: true})
-        .withPrompts(answers)
-        .on('end', done)
-    })
-
-    it('has a cli file', function () {
-      assert.file('lib/cli.js')
-    })
-
-    it('has a valid bin path in package.json', function () {
-      assert.JSONFileContent('package.json', {
-        bin: 'dist/cli.js'
-      })
-    })
-
-    it('has the correct file contents', function () {
-      assert.fileContent('lib/cli.js', '\'./index.js\'')
-      assert.fileContent('lib/cli.js', '\'yargs\'')
-    })
-  })
-
-  describe('--cli set from the prompt', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../generators/app'))
-        .inDir(path.join(__dirname, '.tmp'))
-        .withPrompts(extend({includeCli: true}, answers))
-        .on('end', done)
-    })
-
-    it('has a cli file', function () {
-      assert.file('lib/cli.js')
     })
   })
 
@@ -141,6 +84,4 @@ describe('node-mnm:app', function () {
   //     assert.fileContent('rollup.config.js', "dest: 'dist/generatorMnm.js'")
   //   })
   // })
-
-  // coveralls needs to checked on runtime
 })

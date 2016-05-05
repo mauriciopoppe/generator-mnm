@@ -9,16 +9,10 @@ module.exports = generators.Base.extend({
   constructor: function () {
     generators.Base.apply(this, arguments)
 
-    this.option('name', {
-      type: String,
-      required: false,
-      desc: 'The module name.'
-    })
-
     this.option('index', {
       type: String,
       required: false,
-      defaults: 'lib/index.js',
+      defaults: 'src/index.js',
       desc: 'The destination of the index file'
     })
 
@@ -32,8 +26,8 @@ module.exports = generators.Base.extend({
 
   writing: function () {
     // generates
-    //  lib/index.js (if it's not overriden)
-    //  test/index.js (if it's not overriden)
+    //  lib/index.js
+    //  test/index.js
     var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
     var indexPath = path.join.apply(null, [
       this.destinationRoot(),
@@ -57,7 +51,7 @@ module.exports = generators.Base.extend({
     this.fs.copyTpl(
       this.templatePath('test.js'),
       this.destinationPath(testPath), {
-        camelName: camelCase(defined(this.options.name, pkg.name, 'indexFile')),
+        camelName: camelCase(defined(this.options.name, pkg.name, 'placeModuleNameHere')),
         // computes the relative from `test` to `index`
         // e.g.   from test/ to lib/index.js = ../lib/index.js
         indexPath: indexPath

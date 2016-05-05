@@ -1,9 +1,7 @@
 <div align="center">
 <img src="https://cloud.githubusercontent.com/assets/1616682/11403449/409e561e-9373-11e5-9aeb-7dbea090a0bd.gif" width="400px" />
 
-<p>
-Create node modules with ES6, test with tape on top of npm scripts
-</p>
+Create node modules writing ES6 today compiled with `Babel`, test with `ava` and lint with `standard` on top of npm scripts
 
 <p>
 <a href="https://npmjs.org/package/generator-mnm">
@@ -39,11 +37,10 @@ $ yo mnm
 
 - Made out of many other generators, the main generator only creates a `package.json` file
 - Composable, since the logic to create the README, cli and other files is in its own subgenerator you just have to plug as many subgenerators as you need to your own generator
-- ES6 + [Babel](https://babeljs.io) for the code/tests
-- [feross/standard](http://standardjs.com/) to lint the code
-- [substack/tape](https://github.com/substack/tape) for testing
-- [bcoe/yargs](https://github.com/bcoe/yargs) to parse cli arguments (optional)
-- [douglasduteil/isparta](https://github.com/douglasduteil/isparta) as the code coverage tool for ES6 (optional)
+- [Babel](https://babeljs.io) for the code/tests
+- [standard](http://standardjs.com/) to lint the code
+- [ava](https://github.com/sindresorhus/ava) for testing
+- [yargs](https://github.com/bcoe/yargs) to parse cli arguments (optional)
 - [jsnext:main](https://github.com/rollup/rollup/wiki/jsnext:main) field included if you want to bundle your library using a ES6 module bundler like [Rollup](https://github.com/rollup/rollup)
 - npm scripts as the build system
 
@@ -57,27 +54,17 @@ Common tasks
 
 | task       | description  |
 | -----      | ---          |
-| `npm test` | Executes the tests in `test/` (written in ES6), output piped to [tap-spec](https://github.com/scottcorgan/tap-spec) |
+| `npm test` | `ava` |
 | `npm run lint` | Lints the code with [standard](http://standardjs.com) |
 | `npm run build` | Transforms the ES6 code located at `lib/` with [Babel](https://babeljs.io) (output goes `dist/`)| 
 | `npm run clean` | Removes all the files inside the `dist/` directory using [rimraf](https://github.com/isaacs/rimraf)|
-| `npm run codecov` | Uploads the coverage report to Codecov.io, should be run on Travis |
-| `npm run deploy` | Syncs the repo with your remote i.e. `git pull && git push` |
 
 Watching files
 
 | task | description |
 | --- | --- |
-| `npm run test:watch` | [watch](https://www.npmjs.com/package/watch) for any changes on `{lib,test}/` to run `npm test` |
-| `npm run build:watch` | [watch](https://www.npmjs.com/package/watch) for any changes on `lib/` to run `npm run build` |
-
-Pre/Post hooks
-
-| task | description |
-| --- | --- |
-| `npm run prebuild` | Makes sure that `dist/` is empty |
-| `npm run preversion` | Lints the code, runs tests and transforms the code |
-| `npm run postversion` | Pushes your code to GitHub (including tags) |
+| `npm run test:watch` | `ava --watch` |
+| `npm run build:watch` | `babel ... --watch` |
 
 ### Useful npm commands that you should know
 
@@ -105,10 +92,6 @@ This project is heavily inspired by [this article by Keith Cirkel][stop-using-gr
 - https://github.com/bucaran/generator-rise
 - https://github.com/keithamus/npm-scripts-example 's awesome `package.json` file
 
-## Development
-
-- `npm test`, `npm test:ci` run the tests
-
 ## Composability
 
 Just plug in any of the subgenerators or the generator itself on your generator
@@ -123,16 +106,49 @@ Generators used in this project
 - [generator-travis](https://github.com/iamstarkov/generator-travis)
 - [generator-git-init](https://github.com/iamstarkov/generator-git-init)
 - [generator-license](https://github.com/jozefizso/generator-license)
-- [generator-mwm/generators/boilerplate](./generators/boilerplate)
-- [generator-mwm/generators/cli](./generators/cli)
-- [generator-mwm/generators/git](./generators/git)
-- [generator-mwm/generators/readme](./generators/readme)
+- [generator-mnm/generators/src](./generators/src)
+- [generator-mnm/generators/test](./generators/test)
+- [generator-mnm/generators/cli](./generators/cli)
+- [generator-mnm/generators/git](./generators/git)
+- [generator-mnm/generators/readme](./generators/readme)
 
 Refer to their README files on how to include it your generators
 
+## Workflow
+
+Typically 
+
+```sh
+# also check https://www.npmjs.com/package/initialize
+npm init -y && git init
+
+# generates src/index.js
+# installs standard, babel-cli
+# setup package.json standard ignore and .babelrc with babel-preset-2015
+yo mnm:src
+
+# generates test/index.js and links it with src/index.js
+# installs ava
+yo mnm:test
+# alternative with code coverage enabled
+yo mnm:test --coverage
+
+# .gitignore
+curl https://www.gitignore.io/api/node,vim >> .gitignore
+
+# see https://www.npmjs.com/package/ghrepo
+ghrepo -m "._."
+# see https://www.npmjs.com/package/travisjs
+travisjs hook
+```
+
+## Development
+
+- `npm test`, `npm test:ci` run the tests
+
 ## License
 
-2015 MIT © [Mauricio Poppe](http://maurizzzio.com)
+2015-2016 MIT © [Mauricio Poppe](http://maurizzzio.com)
 
 [stop-using-grunt-gulp]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
 [stop]: http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/
