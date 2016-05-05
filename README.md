@@ -1,7 +1,9 @@
 <div align="center">
 <img src="https://cloud.githubusercontent.com/assets/1616682/11403449/409e561e-9373-11e5-9aeb-7dbea090a0bd.gif" width="400px" />
 
-Create node modules writing ES6 today compiled with `Babel`, test with `ava` and lint with `standard` on top of npm scripts
+<p>
+Create node modules writing ES6 today compiled with Babel, tested with ava and linted with standard on top of npm scripts
+</p>
 
 <p>
 <a href="https://npmjs.org/package/generator-mnm">
