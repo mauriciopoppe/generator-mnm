@@ -80,20 +80,10 @@ describe('node-npm on CI', function () {
 
     it('should execute package.json scripts', function (done) {
       series([
-        function (cb)  { handleProcess('npm test', cb)  },
         function (cb)  { handleProcess('npm run build', cb)  },
+        function (cb)  { handleProcess('npm test', cb)  },
       ], done)
     })
-
-    // it('should generate a codecov file', function (done) {
-    //   series([
-    //     function (cb) { handleProcess('npm run coverage', cb) },
-    //     function (cb) {
-    //       assert.file([ 'coverage/coverage.json' ])
-    //       cb(null)
-    //     }
-    //   ], done)
-    // })
 
     it('should have an executable cli file', function (done) {
       series([

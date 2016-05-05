@@ -57,16 +57,16 @@ Common tasks
 | task       | description  |
 | -----      | ---          |
 | `npm test` | `ava` |
-| `npm run lint` | Lints the code with [standard](http://standardjs.com) |
-| `npm run build` | Transforms the ES6 code located at `lib/` with [Babel](https://babeljs.io) (output goes `dist/`)| 
+| `npm run lint` | `standard` |
+| `npm run build` | `babel src/ -output-file dist/index.js`| 
 | `npm run clean` | Removes all the files inside the `dist/` directory using [rimraf](https://github.com/isaacs/rimraf)|
 
 Watching files
 
 | task | description |
 | --- | --- |
-| `npm run test:watch` | `ava --watch` |
-| `npm run build:watch` | `babel ... --watch` |
+| `npm run test:watch` | Same as `npm test` but with ` --watch` |
+| `npm run build:watch` | Same as `npm run build` but with ` --watch` |
 
 ### Useful npm commands that you should know
 
@@ -118,11 +118,9 @@ Refer to their README files on how to include it your generators
 
 ## Workflow
 
-Typically 
-
 ```sh
 # also check https://www.npmjs.com/package/initialize
-npm init -y && git init
+npm init -y
 
 # generates src/index.js
 # installs standard, babel-cli
