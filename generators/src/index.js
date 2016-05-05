@@ -64,6 +64,17 @@ module.exports = generators.Base.extend({
       )
     },
 
+    gitignore: function () {
+      // appends node_modules and /dist to .gitignore
+      var giPath = this.destinationPath('.gitignore')
+      var file = this.fs.read( giPath, { defaults: '' })
+
+      if (!/node_modules/.test(file)) { file += 'node_modules\n' }
+      if (!/\/dist/.test(file)) { file += '/dist\n' }
+
+      this.fs.write(giPath, file)
+    },
+
     default: function () {
       this.composeWith('travis', {
         options: {

@@ -190,13 +190,6 @@ module.exports = generators.Base.extend({
       local: require.resolve('generator-git-init/generators/app')
     })
 
-    // .gitignore and .gitattributes
-    this.composeWith('mwm:git', {
-      options: {
-        githubAccount: this.props.githubAccount
-      }
-    }, { local: require.resolve('../git') })
-
     // src/index.js and test/index.js
     this.composeWith('mnm:src', {
       options: {

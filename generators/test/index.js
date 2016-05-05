@@ -67,6 +67,16 @@ module.exports = generators.Base.extend({
       }
     },
 
+    gitignore: function () {
+      if (this.options.coverage) {
+        var giPath = this.destinationPath('.gitignore')
+        var file = this.fs.read( giPath, { defaults: '' })
+
+        if (!/\.nyc/.test(file)) { file += '.nyc_output\n' }
+        this.fs.write(giPath, file)
+      }
+    },
+
     file: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       var testIndex = path.join.apply(null, [

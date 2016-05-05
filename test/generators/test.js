@@ -42,6 +42,11 @@ describe('mnm::test', function () {
       assert.fileContent('package.json', '"coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"')
     })
 
+    it('modifies .gitignore', function () {
+      assert.file('.gitignore')
+      assert.fileContent('.gitignore', '.nyc_output')
+    })
+
     it('creates/modifies .travis.yml', function () {
       assert.file('.travis.yml')
       assert.fileContent('.travis.yml', 'before_install: \'npm install codecov.io && npm install nyc\'')

@@ -111,7 +111,6 @@ Generators used in this project
 - [generator-mnm/generators/src](./generators/src)
 - [generator-mnm/generators/test](./generators/test)
 - [generator-mnm/generators/cli](./generators/cli)
-- [generator-mnm/generators/git](./generators/git)
 - [generator-mnm/generators/readme](./generators/readme)
 
 Refer to their README files on how to include it your generators
@@ -123,18 +122,17 @@ Refer to their README files on how to include it your generators
 npm init -y
 
 # generates src/index.js
-# installs standard, babel-cli
+# installs standard, babel
 # setup package.json standard ignore and .babelrc with babel-preset-2015
+# setup an initial .gitignore with node_modules and /dist ignored
 yo mnm:src
 
 # generates test/index.js and links it with src/index.js
 # installs ava
+# replace package.json test field with `ava`
 yo mnm:test
 # alternative with code coverage enabled
 yo mnm:test --coverage
-
-# .gitignore
-curl https://www.gitignore.io/api/node,vim >> .gitignore
 
 # see https://www.npmjs.com/package/ghrepo
 ghrepo -m "._."

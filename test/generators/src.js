@@ -28,6 +28,12 @@ describe('mnm::src', function () {
       assert.fileContent('package.json', '"build:watch": "babel src/ --out-file dist/index.js --watch"')
     })
 
+    it('creates/modifies .gitignore', function () {
+      assert.file('.gitignore') 
+      assert.fileContent('.gitignore', 'node_modules')
+      assert.fileContent('.gitignore', '/dist')
+    })
+
     it('creates/modifies .travis.yml', function () {
       assert.file('.travis.yml')
       assert.fileContent('.travis.yml', 'script: \'npm run build\'')

@@ -9,6 +9,6 @@ cd test/ci/.tmp
 git config user.name "Travis CI"
 git config user.email "mauricio.poppe@gmail.com"
 git add .
-git commit -m "[travis build #$TRAVIS_JOB_NUMBER] Auto-deploy from https://travis-ci.org/maurizzzio/generator-mnm"
+git commit -m "[travis build #$TRAVIS_JOB_NUMBER] Automatic deploy from https://travis-ci.org/maurizzzio/generator-mnm"
 git push --force "https://${GH_TOKEN}@${GH_REF}" master > /dev/null 2>&1
 
