@@ -3,7 +3,7 @@ var generators = require('yeoman-generator')
 var chalk = require('chalk')
 var yosay = require('yosay')
 var extend = require('extend')
-var slug = require('to-slug-case')
+var toCase = require('to-case')
 var isObject = require('is-object')
 var parseAuthor = require('parse-author')
 var githubUsername = require('github-username')
@@ -51,22 +51,20 @@ module.exports = generators.Base.extend({
       }
 
       var done = this.async()
-
-      askName({
+      this.prompt({
         name: 'name',
         message: 'Module name',
-        default: slug(require('path').basename(process.cwd())),
+        default: this.appname,
         validate: function (str) {
           return str.length > 0
         }
-      }, this, function (name) {
-        this.props.name = name
+      }, function (answers) {
+        this.props.name = answers.name
         done()
       }.bind(this))
     },
 
     askForInfo: function () {
-      var done = this.async()
       var prompts = [{
         name: 'description',
         message: 'Module description',
@@ -103,6 +101,7 @@ module.exports = generators.Base.extend({
         }
       }]
 
+      var done = this.async()
       this.prompt(prompts, function (props) {
         this.props = extend(this.props, props)
         done()
@@ -110,16 +109,20 @@ module.exports = generators.Base.extend({
     },
 
     askForGithubAccount: function () {
-      var done = this.async()
+      if (this.options.githubAccount) {
+        this.props.githubAccount = this.options.githubAccount
+        return
+      }
 
+      var done = this.async()
       githubUsername(this.props.authorEmail, function (err, username) {
-        if (err) { console.error(err) }
+        if (err) console.error(err)
         this.prompt({
           name: 'githubAccount',
           message: 'GitHub username or organization',
           default: username
-        }, function (prompt) {
-          this.props.githubAccount = prompt.githubAccount
+        }, function (answers) {
+          extend(this.props, answers)
           done()
         }.bind(this))
       }.bind(this))
@@ -129,7 +132,6 @@ module.exports = generators.Base.extend({
       // additional stuff
       // - cli
       // - code coverage
-      var done = this.async()
       var prompts = [{
         type: 'confirm',
         name: 'includeCli',
@@ -142,6 +144,7 @@ module.exports = generators.Base.extend({
         message: 'Do you need a code coverage tool?',
         default: false
       }]
+      var done = this.async()
       this.prompt(prompts, function (props) {
         this.props = extend(this.props, {
           includeCli: this.options.cli,
@@ -156,7 +159,7 @@ module.exports = generators.Base.extend({
     // Re-read the content at this point because a composed generator might modify it.
     var currentPkg = this.fs.readJSON(this.destinationPath('package.json'), {})
     var pkg = {
-      name: slug(this.props.name),
+      name: toCase.slug(this.props.name),
       version: '0.0.0',
       description: this.props.description,
       homepage: this.props.homepage,

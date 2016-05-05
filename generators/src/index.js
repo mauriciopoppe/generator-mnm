@@ -85,7 +85,7 @@ module.exports = generators.Base.extend({
     }
   },
 
-  installing: function () {
+  install: function () {
     if (!this.options['skip-install']) {
       this.npmInstall(['rimraf', 'mkdirp', 'standard'], { 'save-dev': true })
     }

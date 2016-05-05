@@ -3,8 +3,8 @@
 var path = require('path')
 var mockery = require('mockery')
 var extend = require('extend')
-var assert = require('yeoman-generator').assert
-var helpers = require('yeoman-generator').test
+var assert = require('yeoman-assert')
+var helpers = require('yeoman-test')
 var answers = {
   name: 'generator-mnm',
   description: 'A node module generator',
@@ -22,19 +22,17 @@ describe('node-mnm:app', function () {
   require('../helpers/set-up-mockery')(before, after)
 
   describe('running on new project', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../../generators/app'))
-        .inDir(path.join(__dirname, '.tmp'))
-        // .withOptions({ 'skip-install': true })
+    before(function () {
+      return helpers.run(path.join(__dirname, '../../generators/app'))
+        // .inDir(path.join(__dirname, '.tmp'))
         .withPrompts(answers)
-        .on('end', done)
+        .toPromise()
     })
 
     it('creates files', function () {
       assert.file([
         '.travis.yml',
         '.gitignore',
-        '.gitattributes',
         'README.md',
         'src/index.js',
         'test/index.js'

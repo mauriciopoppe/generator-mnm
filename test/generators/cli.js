@@ -1,7 +1,7 @@
 var path = require('path')
 var extend = require('extend')
-var assert = require('yeoman-generator').assert
-var helpers = require('yeoman-generator').test
+var assert = require('yeoman-assert')
+var helpers = require('yeoman-test')
 
 describe('mnm::cli', function () {
   this.timeout(10000)
@@ -9,10 +9,10 @@ describe('mnm::cli', function () {
   require('../helpers/set-up-mockery')(before, after)
 
   describe('cli with default options', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../../generators/cli'))
+    before(function () {
+      return helpers.run(path.join(__dirname, '../../generators/cli'))
         .inDir(path.join(__dirname, '.tmp'))
-        .on('end', done)
+        .toPromise()
     })
 
     it('has a cli file', function () {

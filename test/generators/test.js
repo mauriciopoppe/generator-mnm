@@ -1,7 +1,7 @@
 var path = require('path')
 var extend = require('extend')
-var assert = require('yeoman-generator').assert
-var helpers = require('yeoman-generator').test
+var assert = require('yeoman-assert')
+var helpers = require('yeoman-test')
 var answers = require('../helpers/answers.json')
 
 describe('mnm::test', function () {
@@ -10,10 +10,10 @@ describe('mnm::test', function () {
   require('../helpers/set-up-mockery')(before, after)
 
   describe('test with default options', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../../generators/test'))
+    before(function () {
+      return helpers.run(path.join(__dirname, '../../generators/test'))
         .inDir(path.join(__dirname, '.tmp'))
-        .on('end', done)
+        .toPromise()
     })
 
     it('creates test/index.js', function () {
@@ -31,11 +31,11 @@ describe('mnm::test', function () {
   })
 
   describe('with coverage on', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../../generators/test'))
+    before(function () {
+      return helpers.run(path.join(__dirname, '../../generators/test'))
         .inDir(path.join(__dirname, '.tmp'))
         .withOptions({ coverage: true })
-        .on('end', done)
+        .toPromise()
     })
 
     it('modifies package.json scripts field', function () {

@@ -1,7 +1,6 @@
 'use strict'
 var githubUsername = require('github-username')
-var camelCase = require('to-camel-case')
-var slugCase = require('to-slug-case')
+var toCase = require('to-case')
 var generators = require('yeoman-generator')
 var isObject = require('is-object')
 var extend = require('extend')
@@ -83,13 +82,13 @@ module.exports = generators.Base.extend({
 
       var done = this.async()
       githubUsername(this.props.authorEmail, function (err, username) {
-        if (err) { console.error(err) }
+        if (err) console.error(err)
         this.prompt({
           name: 'githubAccount',
           message: 'GitHub username or organization',
           default: username
-        }, function (prompt) {
-          this.props.githubAccount = prompt.githubAccount
+        }, function (answers) {
+          extend(this.props, answers)
           done()
         }.bind(this))
       }.bind(this))
@@ -97,7 +96,7 @@ module.exports = generators.Base.extend({
 
     badges: function () {
       var done = this.async()
-      this.prompt([{
+      this.prompt({
         type: 'checkbox',
         name: 'badges',
         message: 'Select the badges that you want in your README',
@@ -116,9 +115,9 @@ module.exports = generators.Base.extend({
           name: 'downloads'
         }],
         default: ['npm', 'travis']
-      }], function (props) {
-        this.props = extend(this.props, props)
-          done()
+      }, function (answers) {
+        extend(this.props, answers)
+        done()
       }.bind(this))
     }
   },
@@ -128,12 +127,12 @@ module.exports = generators.Base.extend({
     var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
 
     this.props = extend(this.props, {
-      name: defined(pkg.name, this.options.name, 'placeModuleNameHere'),
+      name: defined(pkg.name, this.options.name, this.appname),
       description: defined(pkg.description, this.options.description, ''),
       license: defined(pkg.license, this.options.licence, 'MIT')
     })
-    this.props.slugName = slugCase(this.props.name)
-    this.props.camelName = camelCase(this.props.name)
+    this.props.slugName = toCase.slug(this.props.name)
+    this.props.camelName = toCase.camel(this.props.name)
     this.fs.copyTpl(
       this.templatePath('README.md'),
       this.destinationPath('README.md'),

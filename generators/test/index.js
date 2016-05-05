@@ -91,7 +91,7 @@ module.exports = generators.Base.extend({
     }
   },
 
-  installing: function () {
+  install: function () {
     var devDependencies = [ 'ava' ]
     if (this.options.coverage) {
       devDependencies.push('nyc')

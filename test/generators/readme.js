@@ -1,7 +1,7 @@
 var path = require('path')
 var extend = require('extend')
-var assert = require('yeoman-generator').assert
-var helpers = require('yeoman-generator').test
+var assert = require('yeoman-assert')
+var helpers = require('yeoman-test')
 var answers = require('../helpers/answers.json')
 
 describe('mnm::readme', function () {
@@ -9,9 +9,9 @@ describe('mnm::readme', function () {
 
   require('../helpers/set-up-mockery')(before, after)
 
-  describe('readm', function () {
-    before(function (done) {
-      helpers.run(path.join(__dirname, '../../generators/readme'))
+  describe('readme', function () {
+    before(function () {
+      return helpers.run(path.join(__dirname, '../../generators/readme'))
         .inDir(path.join(__dirname, '.tmp'))
         .withPrompts(answers)
         .withOptions({
@@ -20,7 +20,7 @@ describe('mnm::readme', function () {
           author: 'maurizzzio',
           website: 'http://maurizzzio.com'
         })
-        .on('end', done)
+        .toPromise()
     })
 
     it('creates a readme file', function () {

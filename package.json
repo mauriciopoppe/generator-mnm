@@ -39,25 +39,28 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "defined": "^1.0.0",
-    "extend": "^2.0.0",
-    "generator-babel": "^1.0.3",
+    "extend": "^3.0.0",
+    "generator-babel": "^2.0.2",
     "generator-git-init": "^1.0.4",
-    "generator-license": "^2.0.0",
+    "generator-license": "^3.1.1",
     "generator-travis": "^1.2.2",
-    "git-remote-origin-url": "^1.1.2",
+    "git-remote-origin-url": "^2.0.0",
     "github-username": "^2.1.0",
     "inquirer-npm-name": "^1.0.0",
     "is-object": "^1.0.1",
-    "parse-author": "^0.2.0",
+    "parse-author": "^1.0.0",
     "relative": "^3.0.2",
-    "to-camel-case": "^0.2.1",
-    "to-slug-case": "^0.1.2",
-    "yeoman-generator": "^0.21.1",
+    "to-camel-case": "^1.0.0",
+    "to-case": "^2.0.0",
+    "to-slug-case": "^1.0.0",
+    "yeoman-generator": "^0.22.6",
     "yosay": "^1.0.2"
   },
   "devDependencies": {
     "async-series": "0.0.1",
-    "mocha": "^2.3.4",
-    "mockery": "^1.4.0"
+    "mocha": "^2.4.5",
+    "mockery": "^1.4.0",
+    "yeoman-assert": "^2.2.1",
+    "yeoman-test": "^1.4.0"
   }
 }

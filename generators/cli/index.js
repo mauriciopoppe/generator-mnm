@@ -3,7 +3,7 @@ var relative = require('relative')
 var path = require('path')
 var defined = require('defined')
 var extend = require('extend')
-var camelCase = require('to-camel-case')
+var toCase = require('to-case')
 var generators = require('yeoman-generator')
 
 module.exports = generators.Base.extend({
@@ -65,8 +65,8 @@ module.exports = generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath('cli.js'),
         this.destinationPath(cliPath), {
-          camelName: camelCase(
-            defined(pkg.name, path.basename(process.cwd()))
+          camelName: toCase.camel(
+            defined(pkg.name, this.appname)
           ),
           indexPath: indexPath
         }
@@ -74,7 +74,7 @@ module.exports = generators.Base.extend({
     }
   },
 
-  installing: function () {
+  install: function () {
     if (!this.options['skip-install']) {
       this.npmInstall(['yargs'], { save: true })
     }

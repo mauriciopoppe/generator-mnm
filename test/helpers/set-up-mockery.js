@@ -1,9 +1,11 @@
 var mockery = require('mockery')
-var helpers = require('yeoman-generator').test
+var helpers = require('yeoman-test')
 
 module.exports = function (before, after) {
   before(function () {
-    mockery.enable({warnOnUnregistered: false})
+    mockery.enable({
+      warnOnUnregistered: false
+    })
 
     mockery.registerMock('npm-name', function (name, cb) {
       cb(null, true)
@@ -11,6 +13,10 @@ module.exports = function (before, after) {
 
     mockery.registerMock('github-username', function (name, cb) {
       cb(null, 'unicornUser')
+    })
+
+    mockery.registerMock('git-remote-origin-url', function (name, cb) {
+      cb(null, '')
     })
 
     mockery.registerMock(
@@ -23,3 +29,4 @@ module.exports = function (before, after) {
     mockery.disable()
   })
 }
+
