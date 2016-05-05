@@ -5,7 +5,7 @@ set -e
 
 # Taken from https://medium.com/philosophy-logic/publishing-gh-pages-with-travis-ci-53a8270e87db
 
-cd test/.tmp
+cd test/ci/.tmp
 git config user.name "Travis CI"
 git config user.email "mauricio.poppe@gmail.com"
 git add .
