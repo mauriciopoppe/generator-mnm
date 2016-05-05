@@ -59,7 +59,7 @@ module.exports = generators.Base.extend({
         this.composeWith('travis', {
           options: {
             config: {
-              before_install: 'npm install codecov.io',
+              before_install: 'npm install codecov.io && npm install nyc',
               after_success: 'npm run coverage'
             }
           }
@@ -93,9 +93,6 @@ module.exports = generators.Base.extend({
 
   install: function () {
     var devDependencies = [ 'ava' ]
-    if (this.options.coverage) {
-      devDependencies.push('nyc')
-    }
     if (!this.options['skip-install']) {
      this.npmInstall(devDependencies, { 'save-dev': true })
     }

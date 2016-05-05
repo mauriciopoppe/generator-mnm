@@ -44,7 +44,7 @@ describe('mnm::test', function () {
 
     it('creates/modifies .travis.yml', function () {
       assert.file('.travis.yml')
-      assert.fileContent('.travis.yml', 'before_install: \'npm install codecov.io\'')
+      assert.fileContent('.travis.yml', 'before_install: \'npm install codecov.io && npm install nyc\'')
       assert.fileContent('.travis.yml', 'after_success: \'npm run coverage\'')
     })
   })

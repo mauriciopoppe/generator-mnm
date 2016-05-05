@@ -9,7 +9,7 @@ var helpers = require('yeoman-test')
 var exec = require('child_process').exec
 var series = require('async-series')
 
-describe('node-npm on CI', function () {
+describe('generator-mnm on CI', function () {
   this.timeout(600000)
 
   function handleProcess(command, done) {
