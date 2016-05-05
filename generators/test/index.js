@@ -59,7 +59,7 @@ module.exports = generators.Base.extend({
         this.composeWith('travis', {
           options: {
             config: {
-              before_install: 'npm install codecov.io && npm install nyc',
+              before_install: 'npm install codecov && npm install nyc',
               after_success: 'npm run coverage'
             }
           }
@@ -67,15 +67,15 @@ module.exports = generators.Base.extend({
       }
     },
 
-    gitignore: function () {
-      if (this.options.coverage) {
-        var giPath = this.destinationPath('.gitignore')
-        var file = this.fs.read( giPath, { defaults: '' })
-
-        if (!/\.nyc/.test(file)) { file += '.nyc_output\n' }
-        this.fs.write(giPath, file)
-      }
-    },
+    // not needed since it's assumed that coverage is only run on a CI server
+    // gitignore: function () {
+    //   if (this.options.coverage) {
+    //     var giPath = this.destinationPath('.gitignore')
+    //     var file = this.fs.read( giPath, { defaults: '' })
+    //     if (!/\.nyc/.test(file)) { file += '.nyc_output\n' }
+    //     this.fs.write(giPath, file)
+    //   }
+    // },
 
     file: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
