@@ -80,7 +80,7 @@ module.exports = generators.Base.extend({
       options: {
         'skip-install': this.options['skip-install'],
         config: { 
-          script: 'npm run build' 
+          script: 'npm run build'
         }
       }
     }, { local: require.resolve('generator-travis/generators/app') })
@@ -89,7 +89,8 @@ module.exports = generators.Base.extend({
       options: {
         'skip-install': this.options['skip-install'],
         config: {
-          plugins: ['add-module-exports']
+          plugins: ['add-module-exports'],
+          sourceMaps: true
         }
       },
     }, { local: require.resolve('generator-babel/generators/app') })

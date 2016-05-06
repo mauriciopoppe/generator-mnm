@@ -54,7 +54,6 @@ describe('generator-mnm on CI', function () {
         version: '0.0.0',
         main: 'dist/index.js',
         'jsnext:main': 'src/index.js',
-        files: ['src/'],
         license: 'MIT'
       })
     })

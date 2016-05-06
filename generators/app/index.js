@@ -172,7 +172,6 @@ module.exports = generators.Base.extend({
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
-      files: [this.options.src, this.options.dist],
       main: this.options.dist + 'index.js',
       'jsnext:main': this.options.src + 'index.js',
       keywords: this.props.keywords,

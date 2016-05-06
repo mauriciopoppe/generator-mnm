@@ -51,8 +51,7 @@ describe('node-mnm:app', function () {
           url: answers.authorUrl
         },
         keywords: answers.keywords,
-        main: 'dist/index.js',
-        files: ['src/']
+        main: 'dist/index.js'
       })
     })
 
