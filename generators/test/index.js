@@ -55,19 +55,6 @@ module.exports = generators.Base.extend({
       this.fs.writeJSON('package.json', pkg)
     },
 
-    travis: function () {
-      if (this.options.coverage)  {
-        this.composeWith('travis', {
-          options: {
-            config: {
-              before_install: 'npm install codecov && npm install nyc',
-              after_success: 'npm run coverage'
-            }
-          }
-        }, { local: require.resolve('generator-travis/generators/app') })
-      }
-    },
-
     file: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       var testIndex = path.join.apply(null, [
@@ -89,6 +76,19 @@ module.exports = generators.Base.extend({
           indexPath: relativeSrcIndex
         }
       )
+    }
+  },
+
+  default: function () {
+    if (this.options.coverage)  {
+      this.composeWith('travis', {
+        options: {
+          config: {
+            before_install: 'npm install codecov && npm install nyc',
+            after_success: 'npm run coverage'
+          }
+        }
+      }, { local: require.resolve('generator-travis/generators/app') })
     }
   },
 

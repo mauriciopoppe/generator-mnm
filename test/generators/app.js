@@ -16,7 +16,7 @@ var answers = {
 }
 
 describe('node-mnm:app', function () {
-  this.timeout(10000)
+  this.timeout(20000)
 
   require('../helpers/set-up-mockery')(before, after)
 
@@ -52,7 +52,7 @@ describe('node-mnm:app', function () {
         },
         keywords: answers.keywords,
         main: 'dist/index.js',
-        files: ['/dist', '/src']
+        files: ['src/']
       })
     })
 
@@ -65,20 +65,11 @@ describe('node-mnm:app', function () {
       assert.fileContent('README.md', '[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg')
       assert.fileContent('README.md', 'codecov')
     })
+
+    it('creates a valid .npmignore file', function () {
+      assert.file('.gitignore')
+      assert.fileContent('.gitignore', 'node_modules')
+      assert.fileContent('.gitignore', 'dist/')
+    })
   })
-
-  // describe('rollup + babel', function () {
-  //   before(function (done) {
-  //     helpers.run(path.join(__dirname, '../generators/app'))
-  //       .inDir(path.join(__dirname, '.tmp'))
-  //       .withPrompts(extend({includeCli: true, includeCodecov: true}, answers))
-  //       .on('end', done)
-  //   })
-
-  //   it('has a rollup config file', function () {
-  //     assert.file('rollup.config.js')
-  //     assert.fileContent('rollup.config.js', "entry: 'lib/index.js'")
-  //     assert.fileContent('rollup.config.js', "dest: 'dist/generatorMnm.js'")
-  //   })
-  // })
 })

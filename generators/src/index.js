@@ -38,6 +38,7 @@ module.exports = generators.Base.extend({
       function setTask(name, task) {
         scripts[name] = scripts[name] || task
       }
+      setTask('postinstall', 'npm run build')
       setTask('clean', 'rimraf ' + this.options.dist + ' && mkdirp ' + this.options.dist)
       setTask('lint', 'standard')
       setTask('prebuild', 'npm run clean -s && npm run lint -s')
@@ -69,28 +70,29 @@ module.exports = generators.Base.extend({
       var giPath = this.destinationPath('.gitignore')
       var file = this.fs.read( giPath, { defaults: '' })
       if (file.indexOf('node_modules') === -1) { file += 'node_modules\n' }
+      if (file.indexOf(this.options.dist) === -1) { file += this.options.dist + '\n' }
       this.fs.write(giPath, file)
-    },
-
-    default: function () {
-      this.composeWith('travis', {
-        options: {
-          'skip-install': this.options['skip-install'],
-          config: { 
-            script: 'npm run build' 
-          }
-        }
-      }, { local: require.resolve('generator-travis/generators/app') })
-
-      this.composeWith('babel', {
-        options: {
-          'skip-install': this.options['skip-install'],
-          config: {
-            plugins: ['add-module-exports']
-          }
-        },
-      }, { local: require.resolve('generator-babel/generators/app') })
     }
+  },
+
+  default: function () {
+    this.composeWith('travis', {
+      options: {
+        'skip-install': this.options['skip-install'],
+        config: { 
+          script: 'npm run build' 
+        }
+      }
+    }, { local: require.resolve('generator-travis/generators/app') })
+
+    this.composeWith('babel', {
+      options: {
+        'skip-install': this.options['skip-install'],
+        config: {
+          plugins: ['add-module-exports']
+        }
+      },
+    }, { local: require.resolve('generator-babel/generators/app') })
   },
 
   install: function () {

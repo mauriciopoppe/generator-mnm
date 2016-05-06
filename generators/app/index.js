@@ -35,6 +35,10 @@ module.exports = generators.Base.extend({
       this.props.authorEmail = info.email
       this.props.authorUrl = info.url
     }
+
+    this.options.src = 'src/'
+    this.options.dist = 'dist/'
+    this.options.test = 'test/'
   },
 
   prompting: {
@@ -54,7 +58,7 @@ module.exports = generators.Base.extend({
       this.prompt({
         name: 'name',
         message: 'Module name',
-        default: this.appname,
+        default: toCase.slug(this.appname),
         validate: function (str) {
           return str.length > 0
         }
@@ -168,9 +172,9 @@ module.exports = generators.Base.extend({
         email: this.props.authorEmail,
         url: this.props.authorUrl
       },
-      files: ['/dist', '/src'],
-      main: 'dist/index.js',
-      'jsnext:main': 'src/index.js',
+      files: [this.options.src, this.options.dist],
+      main: this.options.dist + 'index.js',
+      'jsnext:main': this.options.src + 'index.js',
       keywords: this.props.keywords,
       scripts: {}
     }
@@ -193,14 +197,16 @@ module.exports = generators.Base.extend({
     // src/index.js and test/index.js
     this.composeWith('mnm:src', {
       options: {
+        src: this.options.src,
+        dist: this.options.dist,
         'skip-install': this.options['skip-install']
       }
-    }, {
-      local: require.resolve('../src')
-    })
+    }, { local: require.resolve('../src') })
     this.composeWith('mnm:test', { 
       options: {
         'skip-install': this.options['skip-install'],
+        src: this.options.src,
+        test: this.options.test,
         coverage: this.props.includeCoverage
       }
     }, { local: require.resolve('../test') })
@@ -223,9 +229,7 @@ module.exports = generators.Base.extend({
         email: this.props.authorEmail,
         website: this.props.authorUrl
       }
-    }, {
-      local: require.resolve('generator-license/app')
-    })
+    }, { local: require.resolve('generator-license/app') })
 
     if (!this.fs.exists(this.destinationPath('README.md'))) {
       this.composeWith('mnm:readme', {
@@ -237,9 +241,7 @@ module.exports = generators.Base.extend({
           website: this.props.authorUrl,
           codecov: this.props.includeCoverage
         }
-      }, {
-        local: require.resolve('../readme')
-      })
+      }, { local: require.resolve('../readme') })
     }
   }
 
