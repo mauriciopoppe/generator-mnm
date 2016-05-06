@@ -29,11 +29,22 @@ $ npm install -g yo generator-mnm
 
 ```sh
 $ yo mnm
-```
 
-<div align="center">
-<img src="https://cloud.githubusercontent.com/assets/1616682/11389890/2d80b6a6-931b-11e5-910c-f2594f485098.gif">
-</div>
+# directory structure
+.
+├── LICENSE
+├── README.md
+├── bin
+│   ├── index.es6.js
+│   └── index.js
+├── dist
+│   └── index.js
+├── package.json
+├── src
+│   └── index.js
+└── test
+    └── index.js
+```
 
 ## Features
 
@@ -57,9 +68,9 @@ Common tasks
 | task       | description  |
 | -----      | ---          |
 | `npm test` | `ava` |
-| `npm run lint` | `standard` |
 | `npm run build` | `babel src/ -output-file dist/index.js`| 
-| `npm run clean` | Removes all the files inside the `dist/` directory using [rimraf](https://github.com/isaacs/rimraf)|
+| `npm run lint` | `standard` |
+| `npm run clean` | Removes all the files inside `dist/`|
 
 Watching files
 
@@ -67,6 +78,12 @@ Watching files
 | --- | --- |
 | `npm run test:watch` | Same as `npm test` but with ` --watch` |
 | `npm run build:watch` | Same as `npm run build` but with ` --watch` |
+
+Pre/Post hooks
+
+| Task | description |
+| --- | --- |
+| `npm run prebuild` | Run before `build`, `npm clean -s && npm lint -s` |
 
 ### Useful npm commands that you should know
 
