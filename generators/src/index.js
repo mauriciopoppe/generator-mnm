@@ -42,7 +42,7 @@ module.exports = generators.Base.extend({
       setTask('lint', 'standard')
       setTask('prebuild', 'npm run clean -s && npm run lint -s')
       setTask('build', buildScript)
-      setTask('build:watch', buildScript + ' --watch')
+      setTask('build:watch', 'npm run build -- --watch')
       pkg.scripts = scripts
 
       // standard ignores
@@ -65,13 +65,10 @@ module.exports = generators.Base.extend({
     },
 
     gitignore: function () {
-      // appends node_modules and /dist to .gitignore
+      // appends node_modules to .gitignore
       var giPath = this.destinationPath('.gitignore')
       var file = this.fs.read( giPath, { defaults: '' })
-
-      if (!/node_modules/.test(file)) { file += 'node_modules\n' }
-      if (!/\/dist/.test(file)) { file += '/dist\n' }
-
+      if (file.indexOf('node_modules') === -1) { file += 'node_modules\n' }
       this.fs.write(giPath, file)
     },
 

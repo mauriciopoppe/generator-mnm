@@ -42,8 +42,9 @@ module.exports = generators.Base.extend({
       // force the inclusion of these scripts
       // this is because initially "test": "echo no tests"
       pkg.scripts.test = 'ava'
-      pkg.scripts['test:watch'] = 'ava --watch'
+      pkg.scripts['test:watch'] = 'npm test -- --watch'
       if (this.options.coverage) {
+        // note that this will only be run on a CI server
         pkg.scripts.coverage = pkg.scripts.coverage || 'nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov'
       }
 
@@ -66,16 +67,6 @@ module.exports = generators.Base.extend({
         }, { local: require.resolve('generator-travis/generators/app') })
       }
     },
-
-    // not needed since it's assumed that coverage is only run on a CI server
-    // gitignore: function () {
-    //   if (this.options.coverage) {
-    //     var giPath = this.destinationPath('.gitignore')
-    //     var file = this.fs.read( giPath, { defaults: '' })
-    //     if (!/\.nyc/.test(file)) { file += '.nyc_output\n' }
-    //     this.fs.write(giPath, file)
-    //   }
-    // },
 
     file: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})

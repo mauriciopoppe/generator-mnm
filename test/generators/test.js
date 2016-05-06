@@ -23,7 +23,7 @@ describe('mnm::test', function () {
 
     it('modifies package.json scripts field', function () {
       assert.fileContent('package.json', '"test": "ava"')
-      assert.fileContent('package.json', '"test:watch": "ava --watch"')
+      assert.fileContent('package.json', '"test:watch": "npm test -- --watch"')
       assert.JSONFileContent('package.json', {
         ava: { require: ['babel-register'] }
       })
