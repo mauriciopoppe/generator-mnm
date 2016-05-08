@@ -178,9 +178,6 @@ module.exports = generators.Base.extend({
       scripts: {}
     }
 
-    // scripts
-    extend(pkg.scripts, { lint: 'standard' })
-
     // Let's extend package.json so we're not overwriting user previous fields
     this.fs.writeJSON('package.json', extend(true, pkg, currentPkg))
   },

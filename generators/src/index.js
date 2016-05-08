@@ -47,9 +47,8 @@ module.exports = generators.Base.extend({
       pkg.scripts = scripts
 
       // standard ignores
-      pkg.standard = {
-        ignore: ['/bin']
-      }
+      // no need to ignore this.options.dist since it honors .gitignore
+      pkg.standard = { ignore: ['bin/'] }
 
       this.fs.writeJSON('package.json', pkg)
     },
