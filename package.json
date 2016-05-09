@@ -1,7 +1,7 @@
 {
   "name": "generator-mnm",
   "version": "0.4.0",
-  "description": "Create node modules with es6, test with tape on top of npm scripts",
+  "description": "Create node modules writing ES6 today compiled with Babel, tested with ava and linted with standard on top of npm scripts Create node modules with es6, test with tape on top of npm scripts",
   "license": "MIT",
   "main": "index.js",
   "repository": "maurizzzio/generator-mnm",
