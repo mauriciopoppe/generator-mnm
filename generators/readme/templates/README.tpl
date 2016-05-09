@@ -4,7 +4,8 @@ if (~badges.indexOf('npm')) b.push('[![NPM version][npm-image]][npm-url]')
 if (~badges.indexOf('travis')) b.push('[![Build Status][travis-image]][travis-url]')
 if (~badges.indexOf('codecov')) b.push('[![Codecov Status][codecov-image]][codecov-url]')
 if (~badges.indexOf('david')) b.push('[![Dependency Status][depstat-image]][depstat-url]')
-if (~badges.indexOf('downloads')) b.push('[![Downloads][download-badge]][npm-url]')
+if (~badges.indexOf('downloads')) b.push('[![Downloads][download-image]][npm-url]')
+b.push('[![Standard][standard-image]][standard-url]')
 %>
 
 # <%= moduleName %>
@@ -41,5 +42,9 @@ import <%= camelModuleName %> from '<%= moduleName %>'
 
 [depstat-url]: https://david-dm.org/<%= githubUsername %>/<%= moduleName %>
 [depstat-image]: https://david-dm.org/<%= githubUsername %>/<%= moduleName %>.svg?style=flat
-[download-badge]: http://img.shields.io/npm/dm/<%= moduleName %>.svg?style=flat
+
+[download-image]: http://img.shields.io/npm/dm/<%= moduleName %>.svg?style=flat
+
+[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat
+[standard-url]: http://standardjs.com/
 
