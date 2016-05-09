@@ -12,6 +12,7 @@ Create node modules writing ES6 today compiled with Babel, tested with ava and l
 <a href="https://travis-ci.org/maurizzzio/generator-mnm">
   <img src="https://img.shields.io/travis/maurizzzio/generator-mnm.svg?style=flat">
 </a>
+<img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg">
 <a href="https://npmjs.org/package/generator-mnm">
   <img src="http://img.shields.io/npm/dm/generator-mnm.svg?style=flat">
 </a>
