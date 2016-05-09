@@ -109,7 +109,10 @@ This project is heavily inspired by [this article by Keith Cirkel][stop-using-gr
 - https://github.com/vinniegarcia/ES6-module-starter
 - https://github.com/sindresorhus/generator-nm
 - https://github.com/bucaran/generator-rise
+- https://github.com/iamstarkov/generator-zen
 - https://github.com/keithamus/npm-scripts-example 's awesome `package.json` file
+
+I'd like to thank [iamstarkov](https://github.com/iamstarkov) for his awesome composable generators
 
 ## Composability
 

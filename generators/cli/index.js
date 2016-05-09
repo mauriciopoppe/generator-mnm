@@ -1,14 +1,13 @@
 'use strict'
-var relative = require('relative')
 var path = require('path')
-var defined = require('defined')
-var extend = require('extend')
 var toCase = require('to-case')
-var generators = require('yeoman-generator')
+var relative = require('relative')
 
-module.exports = generators.Base.extend({
+var Base = require('../base')
+
+module.exports = Base.extend({
   constructor: function () {
-    generators.Base.apply(this, arguments)
+    Base.apply(this, arguments)
 
     this.option('in', {
       type: String,
@@ -46,29 +45,24 @@ module.exports = generators.Base.extend({
       this.fs.writeJSON(this.destinationPath('package.json'), pkg)
     },
 
+    pkgDeps: function () {
+      return this._saveDeps(['yargs'])
+    },
+
     cli: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'))
-      var indexPath = path.join.apply(null, [
-        this.destinationRoot(),
-        this.options.src
-      ])
-      var cliPath = path.join.apply(null, [
-        this.destinationRoot(),
-        this.options.in
-      ])
-
-      var indexPath = relative(cliPath, indexPath)
-      if (indexPath[0] !== '.') {
-        indexPath = './' + indexPath
+      var cliPath = path.join(this.options.in, 'index.js')
+      var srcPath = path.join(this.options.src, 'index.js')
+      var relativePath = relative(cliPath, srcPath)
+      if (relativePath[0] !== '.') {
+        relativePath = './' + relativePath
       }
 
       this.fs.copyTpl(
-        this.templatePath('cli.js'),
+        this.templatePath('cli.tpl'),
         this.destinationPath(cliPath), {
-          camelName: toCase.camel(
-            defined(pkg.name, this.appname)
-          ),
-          indexPath: indexPath
+          camelName: toCase.camel(pkg.name),
+          indexPath: relativePath
         }
       )
     }
@@ -76,7 +70,7 @@ module.exports = generators.Base.extend({
 
   install: function () {
     if (!this.options['skip-install']) {
-      this.npmInstall(['yargs'], { save: true })
+      this.npmInstall()
     }
   }
 })

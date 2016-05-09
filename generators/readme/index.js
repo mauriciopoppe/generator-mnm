@@ -1,120 +1,45 @@
 'use strict'
-var githubUsername = require('github-username')
 var toCase = require('to-case')
-var generators = require('yeoman-generator')
 var isObject = require('is-object')
 var extend = require('extend')
-var defined = require('defined')
 
-module.exports = generators.Base.extend({
+var Base = require('../base')
+
+module.exports = Base.extend({
   constructor: function () {
-    generators.Base.apply(this, arguments)
-
-    this.option('name', {
-      type: String,
-      required: false,
-      desc: 'Module name'
-    })
-
-    this.option('description', {
-      type: String,
-      required: false,
-      desc: 'Module description'
-    })
-
-    this.option('githubAccount', {
-      type: String,
-      required: false,
-      desc: 'GitHub account'
-    })
-
-    this.option('license', {
-      type: String,
-      required: false,
-      desc: 'License'
-    })
-
-    this.option('author', {
-      type: String,
-      required: false,
-      desc: 'Author'
-    })
-
-    this.option('website', {
-      type: String,
-      required: false,
-      desc: 'Website'
-    })
+    Base.apply(this, arguments)
 
     this.option('codecov', {
       type: Boolean,
       required: false,
+      default: false,
       desc: 'Include the codecov badge'
     })
   },
 
   initializing: function () {
-    var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-    var authorInfo = {}
-
-    // package.json might exist, recover some properties
-    this.props = {}
-
-    if (isObject(pkg.author)) {
-      authorInfo = pkg.author
-    } else if (typeof pkg.author === 'string') {
-      authorInfo = parseAuthor(pkg.author)
+    this.shouldSkipAll = this.options.yes
+    this.props = {
+      badges: ['npm', 'travis', this.options.codecov && 'codecov'].filter(Boolean)
     }
-
-    this.props.authorName = defined(authorInfo.name, this.options.author)
-    this.props.authorEmail = authorInfo.email
-    this.props.authorUrl = defined(authorInfo.url, this.options.website)
-
-    this.fs.writeJSON(this.destinationPath('package.json'), pkg)
   },
 
   prompting: {
-    askForGithubAccount: function () {
-      if (this.options.githubAccount) {
-        this.props.githubAccount = this.options.githubAccount
-        return
-      }
-
-      var done = this.async()
-      githubUsername(this.props.authorEmail, function (err, username) {
-        if (err) console.error(err)
-        this.prompt({
-          name: 'githubAccount',
-          message: 'GitHub username or organization',
-          default: username
-        }, function (answers) {
-          extend(this.props, answers)
-          done()
-        }.bind(this))
-      }.bind(this))
-    },
-
     badges: function () {
       var done = this.async()
       this.prompt({
         type: 'checkbox',
         name: 'badges',
         message: 'Select the badges that you want in your README',
-        choices: [{
-          name: 'npm',
-          checked: true
-        }, {
-          name: 'travis',
-          checked: true
-        }, {
-          name: 'codecov',
-          checked: this.options.codecov
-        }, {
-          name: 'david'
-        }, {
-          name: 'downloads'
-        }],
-        default: ['npm', 'travis']
+        choices: [
+          { name: 'npm' },
+          { name: 'travis' },
+          { name: 'codecov' },
+          { name: 'david' },
+          { name: 'downloads' }
+        ],
+        default: this.props.badges,
+        when: !this.shouldSkipAll
       }, function (answers) {
         extend(this.props, answers)
         done()
@@ -123,18 +48,33 @@ module.exports = generators.Base.extend({
   },
 
   writing: function () {
-    // package.json might have been modified/created in another generator
     var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
+    var authorInfo
+    if (isObject(pkg.author)) {
+      authorInfo = pkg.author
+    } else if (typeof pkg.author === 'string') {
+      authorInfo = parseAuthor(pkg.author)
+    }
 
-    this.props = extend(this.props, {
-      name: defined(pkg.name, this.options.name, this.appname),
-      description: defined(pkg.description, this.options.description, ''),
-      license: defined(pkg.license, this.options.licence, 'MIT')
+    // get githubUsername from repository field
+    // assume for simplicity that the field has the form
+    //    
+    //    githubUsername/moduleName
+    //
+    var githubUsername = pkg.repository.split('/')[0]
+
+    extend(this.props, {
+      name: authorInfo.name || '',
+      email: authorInfo.email || '',
+      website: authorInfo.url || '',
+      githubUsername: githubUsername,
+      moduleName: pkg.name,
+      moduleDescription: pkg.description || '',
+      moduleLicense: pkg.license || ''
     })
-    this.props.slugName = toCase.slug(this.props.name)
-    this.props.camelName = toCase.camel(this.props.name)
+    this.props.camelModuleName = toCase.camel(this.props.moduleName)
     this.fs.copyTpl(
-      this.templatePath('README.md'),
+      this.templatePath('README.tpl'),
       this.destinationPath('README.md'),
       this.props
     )

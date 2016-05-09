@@ -1,13 +1,12 @@
 'use strict'
-var camelCase = require('to-camel-case')
-var generators = require('yeoman-generator')
-var defined = require('defined')
 var path = require('path')
 var relative = require('relative')
 
-module.exports = generators.Base.extend({
+var Base = require('../base')
+
+module.exports = Base.extend({
   constructor: function () {
-    generators.Base.apply(this, arguments)
+    Base.apply(this, arguments)
 
     this.option('src', {
       type: String,
@@ -26,51 +25,62 @@ module.exports = generators.Base.extend({
   },
 
   writing: {
-    pkg: function () {
+    pkgScripts: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-
-      var distIndex = path.join.apply(null, [
-        this.options.dist,
-        'index.js'
-      ])
-      var buildScript = 'babel ' + this.options.src + ' --out-file ' + distIndex
+      var distPath = path.join(this.options.dist, 'index.js')
+      var srcPath = path.join(this.options.src, 'index.js')
+      var buildScript = 'babel ' + srcPath + ' --out-file ' + distPath
       var scripts = pkg.scripts || {}
       function setTask(name, task) {
         scripts[name] = scripts[name] || task
       }
-      setTask('postinstall', 'npm run build')
       setTask('clean', 'rimraf ' + this.options.dist + ' && mkdirp ' + this.options.dist)
       setTask('lint', 'standard')
       setTask('prebuild', 'npm run clean -s && npm run lint -s')
       setTask('build', buildScript)
       setTask('build:watch', 'npm run build -- --watch')
+      // instead of runnning this on prepublish which doesn't work as expecte on
+      // npm@3 run it on preversion, this is because it's highly unlikely to do
+      // something after `npm version`
+      setTask('preversion', 'npm run build')
       pkg.scripts = scripts
 
       // standard ignores
       // no need to ignore this.options.dist since it honors .gitignore
-      pkg.standard = { ignore: ['bin/'] }
+      
+      // `files` is like !.npmignore, i.e. the strategy is to ignore everything
+      // but what's included on this field
+      //
+      // include dist/ (ignored in .gitignore but added through `files`)
+      // include src/ (jsnext:main compatibility)
+      pkg.files = pkg.files || []
 
-      this.fs.writeJSON('package.json', pkg)
+      var files = [this.options.src, this.options.dist]
+      files.forEach(function (path) {
+        if (pkg.files.indexOf(path) === -1) {
+          pkg.files.push(path)
+        }
+      })
+      this.fs.writeJSON(this.destinationPath('package.json'), pkg);
     },
 
-    file: function () {
+    pkgDeps: function () {
+      return this._saveDeps(['rimraf', 'mkdirp', 'standard'])
+    },
+
+    templates: function () {
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-      var srcIndex = path.join(this.options.src, 'index.js')
+      var srcPath = path.join(this.options.src, 'index.js')
 
       // copy template to this.options.src
       this.fs.copyTpl(
-        this.templatePath('index.js'),
-        this.destinationPath(srcIndex), { }
+        this.templatePath('index.tpl'),
+        this.destinationPath(srcPath), {}
       )
     },
 
     gitignore: function () {
-      // appends node_modules to .gitignore
-      var giPath = this.destinationPath('.gitignore')
-      var file = this.fs.read( giPath, { defaults: '' })
-      if (file.indexOf('node_modules') === -1) { file += 'node_modules\n' }
-      if (file.indexOf(this.options.dist) === -1) { file += this.options.dist + '\n' }
-      this.fs.write(giPath, file)
+      this._gitignore([this.options.dist])
     }
   },
 
@@ -97,7 +107,7 @@ module.exports = generators.Base.extend({
 
   install: function () {
     if (!this.options['skip-install']) {
-      this.npmInstall(['rimraf', 'mkdirp', 'standard'], { 'save-dev': true })
+      this.npmInstall()
     }
   }
 })

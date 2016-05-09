@@ -1,13 +1,13 @@
 'use strict'
-var camelCase = require('to-camel-case')
-var generators = require('yeoman-generator')
-var defined = require('defined')
 var path = require('path')
+var toCase = require('to-case')
 var relative = require('relative')
 
-module.exports = generators.Base.extend({
+var Base = require('../base')
+
+module.exports = Base.extend({
   constructor: function () {
-    generators.Base.apply(this, arguments)
+    Base.apply(this, arguments)
 
     this.option('src', {
       type: String,
@@ -55,25 +55,32 @@ module.exports = generators.Base.extend({
       this.fs.writeJSON('package.json', pkg)
     },
 
-    file: function () {
-      var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-      var testIndex = path.join.apply(null, [
-        this.options.test,
-        'index.js'
-      ])
+    pkgDeps: function () {
+      return this._saveDeps(['ava'])
+    },
 
-      var relativeSrcIndex = relative(this.options.test, this.options.src + '/index.js')
-      if (relativeSrcIndex[0] !== '.') {
-        relativeSrcIndex = './' + relativeSrcIndex
+    gitignore: function () {
+      if (this.options.coverage) {
+        return this._gitignore(['coverage', '.nyc_output']) 
+      }
+    },
+
+    templates: function () {
+      var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
+      var testPath = path.join(this.options.test, 'index.js')
+      var srcPath = path.join(this.options.src, 'index.js')
+      var relativePath = relative(testPath, srcPath)
+      if (relativePath[0] !== '.') {
+        relativePath = './' + relativePath
       }
 
       this.fs.copyTpl(
-        this.templatePath('test.js'),
-        this.destinationPath(testIndex), {
-          camelName: camelCase(defined(pkg.name, path.basename(process.cwd()))),
+        this.templatePath('test.tpl'),
+        this.destinationPath(testPath), {
+          camelName: toCase.camel(pkg.name),
           // computes the relative from `test` to `index`
           // e.g.   from test/ to src/index.js = ../src/index.js
-          indexPath: relativeSrcIndex
+          indexPath: relativePath
         }
       )
     }
@@ -93,10 +100,8 @@ module.exports = generators.Base.extend({
   },
 
   install: function () {
-    var devDependencies = [ 'ava' ]
     if (!this.options['skip-install']) {
-     this.npmInstall(devDependencies, { 'save-dev': true })
+     this.npmInstall()
     }
   }
-
 })
