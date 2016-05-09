@@ -1,14 +1,12 @@
 'use strict'
 var defined = require('defined')
-var chalk = require('chalk')
 var extend = require('extend')
 var toCase = require('to-case')
 var isObject = require('is-object')
-var isUrl = require('is-url')
 var parseAuthor = require('parse-author')
 var githubUsername = require('github-username')
-var askName = require('inquirer-npm-name')
 var normalizeUrl = require('normalize-url')
+var isUrl = require('is-url')
 var mkdirp = require('mkdirp')
 
 var Base = require('../base')
@@ -130,6 +128,9 @@ module.exports = Base.extend({
       var done = this.async()
       this.prompt(prompts, function (props) {
         extend(this.props, props)
+        if (this.props.website) {
+         this.props.website = normalizeUrl(this.props.website)
+        }
         done()
       }.bind(this))
     },
@@ -276,16 +277,16 @@ module.exports = Base.extend({
       }
     }, { local: require.resolve('../test') })
 
+    // TODO: make the generator receive a license field
     // if (!this.shouldSkipAll) {
-      // TODO: make the generator receive a license field
-      this.composeWith('license', {
-        options: {
-          name: this.props.name,
-          email: this.props.email,
-          website: this.props.website
-        },
-        prompts: {license: 'MIT'}
-      }, { local: require.resolve('generator-license/app') })
+      // this.composeWith('license', {
+      //   options: {
+      //     name: this.props.name,
+      //     email: this.props.email,
+      //     website: this.props.website
+      //   },
+      //   prompts: {license: 'MIT'}
+      // }, { local: require.resolve('generator-license/app') })
     // }
 
     if (!this.fs.exists(this.destinationPath('README.md'))) {

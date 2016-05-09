@@ -35,7 +35,7 @@ describe('generator-mnm on CI', function () {
         // addons
         coverage: true,
         // generator-license/app
-        license: 'MIT',
+        // license: 'MIT',
         // ./generators/readme
         badges: ['npm', 'travis', 'codecov', 'david', 'downloads']
       })

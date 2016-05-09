@@ -37,7 +37,6 @@
     "yo"
   ],
   "dependencies": {
-    "chalk": "^1.0.0",
     "defined": "^1.0.0",
     "deps-object": "^2.0.2",
     "extend": "^3.0.0",
@@ -45,9 +44,7 @@
     "generator-git-init": "^1.0.4",
     "generator-license": "^3.1.1",
     "generator-travis": "^1.2.2",
-    "git-remote-origin-url": "^2.0.0",
     "github-username": "^2.1.0",
-    "inquirer-npm-name": "^1.0.0",
     "is-object": "^1.0.1",
     "is-url": "^1.2.1",
     "mkdirp": "^0.5.1",

@@ -17,10 +17,6 @@ module.exports = function (before, after) {
       cb(null, 'unicornUser')
     })
 
-    mockery.registerMock('git-remote-origin-url', function (name, cb) {
-      cb(null, '')
-    })
-
     mockery.registerMock(
       require.resolve('generator-license/app'),
       helpers.createDummyGenerator()
