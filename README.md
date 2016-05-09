@@ -29,22 +29,40 @@ $ npm install -g yo generator-mnm
 ## Usage
 
 ```sh
-$ yo mnm
+Usage:
+  yo mnm:app [options] [<name>]
 
-# directory structure
-.
-├── LICENSE
-├── README.md
-├── bin
-│   ├── index.es6.js
-│   └── index.js
-├── dist
-│   └── index.js
-├── package.json
-├── src
-│   └── index.js
-└── test
-    └── index.js
+Options:
+  -h,   --help          # Print the generator's options and usage
+        --skip-cache    # Do not remember prompt answers             Default: false
+        --skip-install  # Do not automatically install dependencies  Default: false
+  -a,   --all           # Ask all questions                          Default: false
+  -y,   --yes           # Skip all questions, like $ npm init -y     Default: false
+
+Arguments:
+  name  # module name
+  If provided the module will be created inside ./<name>/
+  otherwise it will be created in the current directory
+
+  Examples:
+
+     $ yo mnm
+     $ yo mnm myAwesomeModule
+
+    Type: String  Required: false
+```
+
+Example
+
+```sh
+$ yo mnm -y
+   create package.json
+   create README.md
+   create .gitignore
+   create src/index.js
+   create test/index.js
+   create .travis.yml
+   create .babelrc
 ```
 
 ## Features
@@ -85,6 +103,7 @@ Pre/Post hooks
 | Task | description |
 | --- | --- |
 | `npm run prebuild` | Run before `build`, `npm clean -s && npm lint -s` |
+| `npm run preversion` | Run before `version`, `npm run build` |
 
 ### Useful npm commands that you should know
 
@@ -139,22 +158,8 @@ Refer to their README files on how to include it your generators
 ## Workflow
 
 ```sh
-# also check https://www.npmjs.com/package/initialize
-npm init -y
-
-# generates src/index.js
-# installs standard, babel
-# setup package.json standard ignore and .babelrc with babel-preset-2015
-# setup an initial .gitignore with node_modules and /dist ignored
-yo mnm:src
-
-# generates test/index.js and links it with src/index.js
-# installs ava
-# replace package.json test field with `ava`
-yo mnm:test
-# alternative with code coverage enabled
-yo mnm:test --coverage
-
+# equivalent to npm init -y
+yo mnm -y
 # see https://www.npmjs.com/package/ghrepo
 ghrepo -m "._."
 # see https://www.npmjs.com/package/travisjs
