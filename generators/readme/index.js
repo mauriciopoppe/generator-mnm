@@ -54,6 +54,8 @@ module.exports = Base.extend({
       authorInfo = pkg.author
     } else if (typeof pkg.author === 'string') {
       authorInfo = parseAuthor(pkg.author)
+    } else {
+      authorInfo = {}
     }
 
     // get githubUsername from repository field
@@ -61,14 +63,14 @@ module.exports = Base.extend({
     //    
     //    githubUsername/moduleName
     //
-    var githubUsername = pkg.repository.split('/')[0]
+    var githubUsername = (pkg.repository || '').split('/')[0]
 
     extend(this.props, {
       name: authorInfo.name || '',
       email: authorInfo.email || '',
       website: authorInfo.url || '',
       githubUsername: githubUsername,
-      moduleName: pkg.name,
+      moduleName: (pkg.name || this.appname),
       moduleDescription: pkg.description || '',
       moduleLicense: pkg.license || ''
     })

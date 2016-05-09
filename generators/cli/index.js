@@ -2,6 +2,7 @@
 var path = require('path')
 var toCase = require('to-case')
 var relative = require('relative')
+var defined = require('defined')
 
 var Base = require('../base')
 
@@ -12,14 +13,14 @@ module.exports = Base.extend({
     this.option('in', {
       type: String,
       required: false,
-      defaults: 'bin/index.es6.js',
+      defaults: 'bin/index.js',
       desc: 'The location of cli source code'
     })
 
     this.option('out', {
       type: String,
       required: false,
-      defaults: 'bin/index.js',
+      defaults: 'bin/index.es5.js',
       desc: 'The path to your cli written in the bin property of package.json'
     })
 
@@ -50,9 +51,9 @@ module.exports = Base.extend({
     },
 
     cli: function () {
-      var pkg = this.fs.readJSON(this.destinationPath('package.json'))
-      var cliPath = path.join(this.options.in, 'index.js')
-      var srcPath = path.join(this.options.src, 'index.js')
+      var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
+      var cliPath = this.options.in
+      var srcPath = this.options.src
       var relativePath = relative(cliPath, srcPath)
       if (relativePath[0] !== '.') {
         relativePath = './' + relativePath
@@ -61,7 +62,7 @@ module.exports = Base.extend({
       this.fs.copyTpl(
         this.templatePath('cli.tpl'),
         this.destinationPath(cliPath), {
-          camelName: toCase.camel(pkg.name),
+          camelName: toCase.camel(pkg.name || this.appname),
           indexPath: relativePath
         }
       )

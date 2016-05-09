@@ -21,6 +21,14 @@ describe('mnm::test', function () {
       assert.fileContent('test/index.js', 'import test from \'ava\'')
     })
 
+    it('modifies package.json devDependencies field', function () {
+      assert.JSONFileContent('package.json', {
+        devDependencies: {
+          ava: '*'
+        }
+      })
+    })
+
     it('modifies package.json scripts field', function () {
       assert.fileContent('package.json', '"test": "ava"')
       assert.fileContent('package.json', '"test:watch": "npm test -- --watch"')
@@ -40,6 +48,12 @@ describe('mnm::test', function () {
 
     it('modifies package.json scripts field', function () {
       assert.fileContent('package.json', '"coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"')
+    })
+
+    it('creates/modifies .gitignore', function () {
+      assert.file('.gitignore') 
+      assert.fileContent('.gitignore', '.nyc_output')
+      assert.fileContent('.gitignore', 'coverage')
     })
 
     it('creates/modifies .travis.yml', function () {

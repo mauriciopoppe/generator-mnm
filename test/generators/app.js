@@ -4,16 +4,7 @@ var path = require('path')
 var extend = require('extend')
 var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
-var answers = {
-  name: 'generator-mnm',
-  description: 'A node module generator',
-  homepage: 'http://generator-mnm.com',
-  githubAccount: 'maurizzzio',
-  authorName: 'Mauricio Poppe',
-  authorEmail: 'mauricio.poppe@gmail.com',
-  authorUrl: 'http://maurizzzio.com',
-  keywords: ['foo', 'bar']
-}
+var answers = require('../helpers/answers.json')
 
 describe('node-mnm:app', function () {
   this.timeout(20000)
@@ -24,7 +15,7 @@ describe('node-mnm:app', function () {
     before(function () {
       return helpers.run(path.join(__dirname, '../../generators/app'))
         .inDir(path.join(__dirname, '.tmp'))
-        .withPrompts(answers)
+        .withPrompts(extend(answers, {}))
         .toPromise()
     })
 
@@ -41,17 +32,19 @@ describe('node-mnm:app', function () {
     it('creates package.json', function () {
       assert.file('package.json')
       assert.JSONFileContent('package.json', {
-        name: 'generator-mnm',
+        name: answers.moduleName,
         version: '0.0.0',
-        description: answers.description,
-        homepage: answers.homepage,
+        description: answers.moduleDescription,
+        license: answers.moduleLicense,
         author: {
-          name: answers.authorName,
-          email: answers.authorEmail,
-          url: answers.authorUrl
+          name: answers.name,
+          email: answers.email,
+          url: 'http://' + answers.website
         },
-        keywords: answers.keywords,
-        main: 'dist/index.js'
+        main: 'dist/index.js',
+        keywords: answers.moduleKeywords,
+        'jsnext:main': 'src/index.js',
+        repository: answers.githubUsername + '/' + answers.moduleName
       })
     })
 
@@ -60,15 +53,19 @@ describe('node-mnm:app', function () {
       assert.fileContent('README.md', 'import generatorMnm from \'generator-mnm\'')
       assert.fileContent('README.md', '> A node module generator')
       assert.fileContent('README.md', 'npm install --save generator-mnm')
+      assert.fileContent('README.md', 'MIT')
       assert.fileContent('README.md', '[Mauricio Poppe](http://maurizzzio.com)')
       assert.fileContent('README.md', '[travis-image]: https://img.shields.io/travis/maurizzzio/generator-mnm.svg')
-      assert.fileContent('README.md', 'codecov')
+      assert.fileContent('README.md', '[![Codecov Status][codecov-image]][codecov-url]')
     })
 
     it('creates a valid .npmignore file', function () {
       assert.file('.gitignore')
+      assert.fileContent('.gitignore', '.DS_Store')
       assert.fileContent('.gitignore', 'node_modules')
       assert.fileContent('.gitignore', 'dist/')
+      assert.fileContent('.gitignore', '.nyc_output')
+      assert.fileContent('.gitignore', 'coverage')
     })
   })
 })

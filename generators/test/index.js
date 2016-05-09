@@ -77,7 +77,7 @@ module.exports = Base.extend({
       this.fs.copyTpl(
         this.templatePath('test.tpl'),
         this.destinationPath(testPath), {
-          camelName: toCase.camel(pkg.name),
+          camelName: toCase.camel(pkg.name || this.appname),
           // computes the relative from `test` to `index`
           // e.g.   from test/ to src/index.js = ../src/index.js
           indexPath: relativePath
