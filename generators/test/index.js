@@ -36,9 +36,6 @@ module.exports = Base.extend({
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       pkg.scripts = pkg.scripts || {}
 
-      // test scripts
-      var scripts = pkg.scripts
-
       // force the inclusion of these scripts
       // this is because initially "test": "echo no tests"
       pkg.scripts.test = 'ava'
@@ -61,7 +58,7 @@ module.exports = Base.extend({
 
     gitignore: function () {
       if (this.options.coverage) {
-        return this._gitignore(['coverage', '.nyc_output']) 
+        return this._gitignore(['coverage', '.nyc_output'])
       }
     },
 
@@ -87,7 +84,7 @@ module.exports = Base.extend({
   },
 
   default: function () {
-    if (this.options.coverage)  {
+    if (this.options.coverage) {
       this.composeWith('travis', {
         options: {
           config: {
@@ -101,7 +98,7 @@ module.exports = Base.extend({
 
   install: function () {
     if (!this.options['skip-install']) {
-     this.npmInstall()
+      this.npmInstall()
     }
   }
 })

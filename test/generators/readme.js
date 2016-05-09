@@ -1,8 +1,6 @@
 var path = require('path')
-var extend = require('extend')
 var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
-var answers = require('../helpers/answers.json')
 
 require('../helpers/set-up-mockery')(before, after)
 

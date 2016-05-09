@@ -1,5 +1,4 @@
 'use strict'
-var path = require('path')
 var toCase = require('to-case')
 var relative = require('relative')
 var defined = require('defined')

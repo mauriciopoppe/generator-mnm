@@ -1,6 +1,5 @@
 'use strict'
 var path = require('path')
-var relative = require('relative')
 
 var Base = require('../base')
 
@@ -21,19 +20,19 @@ module.exports = Base.extend({
       defaults: 'dist/',
       desc: 'Dist folder (after compilation with Babel)'
     })
-
   },
 
   writing: {
     pkgScripts: function () {
+      function setTask (name, task) {
+        scripts[name] = scripts[name] || task
+      }
+
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       var distPath = path.join(this.options.dist, 'index.js')
       var srcPath = path.join(this.options.src, 'index.js')
       var buildScript = 'babel ' + srcPath + ' --out-file ' + distPath
       var scripts = pkg.scripts || {}
-      function setTask(name, task) {
-        scripts[name] = scripts[name] || task
-      }
       setTask('clean', 'rimraf ' + this.options.dist + ' && mkdirp ' + this.options.dist)
       setTask('lint', 'standard')
       setTask('prebuild', 'npm run clean -s && npm run lint -s')
@@ -47,7 +46,7 @@ module.exports = Base.extend({
 
       // standard ignores
       // no need to ignore this.options.dist since it honors .gitignore
-      
+
       // `files` is like !.npmignore, i.e. the strategy is to ignore everything
       // but what's included on this field
       //
@@ -61,7 +60,7 @@ module.exports = Base.extend({
           pkg.files.push(path)
         }
       })
-      this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+      this.fs.writeJSON(this.destinationPath('package.json'), pkg)
     },
 
     pkgDeps: function () {
@@ -69,7 +68,6 @@ module.exports = Base.extend({
     },
 
     templates: function () {
-      var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       var srcPath = path.join(this.options.src, 'index.js')
 
       // copy template to this.options.src
@@ -88,7 +86,7 @@ module.exports = Base.extend({
     this.composeWith('travis', {
       options: {
         'skip-install': this.options['skip-install'],
-        config: { 
+        config: {
           script: 'npm run build'
         }
       }
@@ -101,7 +99,7 @@ module.exports = Base.extend({
           plugins: ['add-module-exports'],
           sourceMaps: true
         }
-      },
+      }
     }, { local: require.resolve('generator-babel/generators/app') })
   },
 

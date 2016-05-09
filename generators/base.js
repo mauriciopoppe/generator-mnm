@@ -23,7 +23,7 @@ module.exports = yeoman.Base.extend({
 
   _gitignore: function (ignores) {
     var giPath = this.destinationPath('.gitignore')
-    var file = this.fs.read( giPath, { defaults: '' })
+    var file = this.fs.read(giPath, { defaults: '' })
     ignores.forEach(function (v) {
       if (file.indexOf(v) === -1) {
         file += v + '\n'

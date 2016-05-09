@@ -1,6 +1,5 @@
 var mockery = require('mockery')
 var helpers = require('yeoman-test')
-var depsObject = require('deps-object') 
 var Promise = require('pinkie-promise')
 
 module.exports = function (before, after) {

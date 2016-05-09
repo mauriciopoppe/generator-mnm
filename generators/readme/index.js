@@ -2,6 +2,7 @@
 var toCase = require('to-case')
 var isObject = require('is-object')
 var extend = require('extend')
+var parseAuthor = require('parse-author')
 
 var Base = require('../base')
 
@@ -60,7 +61,7 @@ module.exports = Base.extend({
 
     // get githubUsername from repository field
     // assume for simplicity that the field has the form
-    //    
+    //
     //    githubUsername/moduleName
     //
     var githubUsername = (pkg.repository || '').split('/')[0]

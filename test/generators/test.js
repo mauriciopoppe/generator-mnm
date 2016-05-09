@@ -1,8 +1,6 @@
 var path = require('path')
-var extend = require('extend')
 var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
-var answers = require('../helpers/answers.json')
 
 describe('mnm::test', function () {
   this.timeout(10000)
@@ -51,7 +49,7 @@ describe('mnm::test', function () {
     })
 
     it('creates/modifies .gitignore', function () {
-      assert.file('.gitignore') 
+      assert.file('.gitignore')
       assert.fileContent('.gitignore', '.nyc_output')
       assert.fileContent('.gitignore', 'coverage')
     })

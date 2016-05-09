@@ -2,8 +2,6 @@
 var defined = require('defined')
 var extend = require('extend')
 var toCase = require('to-case')
-var isObject = require('is-object')
-var parseAuthor = require('parse-author')
 var githubUsername = require('github-username')
 var normalizeUrl = require('normalize-url')
 var isUrl = require('is-url')
@@ -15,9 +13,9 @@ module.exports = Base.extend({
   constructor: function () {
     Base.apply(this, arguments)
 
-    this.argument('name', { 
-      type: String, 
-      required: false, 
+    this.argument('name', {
+      type: String,
+      required: false,
       desc: [
         'module name',
         'If provided the module will be created inside ./myAwesomeModule/',
@@ -54,7 +52,7 @@ module.exports = Base.extend({
     //   required: false,
     //   alias: 'p',
     //   default: false,
-    //   desc: 'Install with pnpm instead of npm, make sure you have pnpm installed' 
+    //   desc: 'Install with pnpm instead of npm, make sure you have pnpm installed'
     // })
   },
 
@@ -73,7 +71,7 @@ module.exports = Base.extend({
       dist: 'dist/',
       test: 'test/'
     })
-    this.props = extend({}, defaults) 
+    this.props = extend({}, defaults)
     if (this.shouldSkipAll && this.shouldAskAll) {
       this.log('You have chosen to ask both "all" and "minimum" questions!\n')
       return
@@ -117,7 +115,7 @@ module.exports = Base.extend({
         message: 'Your website:',
         when: this._shouldAskUserInfo('website'),
         validate: this._checkUrl('The input is not a valid url'),
-        filter: function (v) { 
+        filter: function (v) {
           if (v.indexOf('.') === -1) return v
           return normalizeUrl(v)
         },
@@ -129,7 +127,7 @@ module.exports = Base.extend({
       this.prompt(prompts, function (props) {
         extend(this.props, props)
         if (this.props.website) {
-         this.props.website = normalizeUrl(this.props.website)
+          this.props.website = normalizeUrl(this.props.website)
         }
         done()
       }.bind(this))
@@ -206,10 +204,9 @@ module.exports = Base.extend({
         when: !this.shouldSkipAll,
         default: this.props.coverage
       }]
-      var self = this
       var done = this.async()
       this.prompt(prompts, function (answers) {
-        extend(self.props, answers)
+        extend(this.props, answers)
         done()
       }.bind(this))
     }
@@ -219,8 +216,8 @@ module.exports = Base.extend({
     pkg: function () {
       if (this.name) {
         // if the argument `name` is given create the project inside it
-        mkdirp(this.props.moduleName);
-        this.destinationRoot(this.destinationPath(this.props.moduleName));
+        mkdirp(this.props.moduleName)
+        this.destinationRoot(this.destinationPath(this.props.moduleName))
       }
 
       // check if there's an existing package.json
@@ -268,7 +265,7 @@ module.exports = Base.extend({
       }
     }, { local: require.resolve('../src') })
 
-    this.composeWith('mnm:test', { 
+    this.composeWith('mnm:test', {
       options: {
         'skip-install': this.options['skip-install'],
         src: this.props.src,

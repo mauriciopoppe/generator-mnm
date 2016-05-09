@@ -1,5 +1,4 @@
 var path = require('path')
-var extend = require('extend')
 var assert = require('yeoman-assert')
 var helpers = require('yeoman-test')
 

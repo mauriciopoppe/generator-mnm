@@ -1,7 +1,4 @@
-/**
- * Created by mauricio on 3/23/15.
- */
-'use strict';
+'use strict'
 
 var path = require('path')
 var assert = require('yeoman-assert')
@@ -12,7 +9,7 @@ var series = require('async-series')
 describe('generator-mnm on CI', function () {
   this.timeout(600000)
 
-  function handleProcess(command, done) {
+  function handleProcess (command, done) {
     exec(command, function (err) {
       if (err) { return done(err) }
       done(null)
@@ -70,8 +67,8 @@ describe('generator-mnm on CI', function () {
 
     it('should execute package.json scripts', function (done) {
       series([
-        function (cb)  { handleProcess('npm run build', cb)  },
-        function (cb)  { handleProcess('npm test', cb)  },
+        function (cb) { handleProcess('npm run build', cb) },
+        function (cb) { handleProcess('npm test', cb) }
       ], done)
     })
 
