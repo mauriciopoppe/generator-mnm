@@ -1,6 +1,6 @@
 {
   "name": "generator-mnm",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Create node modules writing ES6 today compiled with Babel, tested with ava and linted with standard on top of npm scripts Create node modules with es6, test with tape on top of npm scripts",
   "license": "MIT",
   "main": "index.js",
@@ -65,6 +65,8 @@
     "yeoman-test": "^1.4.0"
   },
   "standard": {
-    "env": ["mocha"]
+    "env": [
+      "mocha"
+    ]
   }
 }
