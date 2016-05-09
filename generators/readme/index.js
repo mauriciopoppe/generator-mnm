@@ -1,6 +1,5 @@
 'use strict'
 var toCase = require('to-case')
-var isObject = require('is-object')
 var extend = require('extend')
 var parseAuthor = require('parse-author')
 
@@ -51,7 +50,7 @@ module.exports = Base.extend({
   writing: function () {
     var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
     var authorInfo
-    if (isObject(pkg.author)) {
+    if (pkg.author && typeof pkg.author === 'object') {
       authorInfo = pkg.author
     } else if (typeof pkg.author === 'string') {
       authorInfo = parseAuthor(pkg.author)
