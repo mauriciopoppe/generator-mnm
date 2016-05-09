@@ -15,7 +15,7 @@ describe('generator-mnm on CI', function () {
   function handleProcess(command, done) {
     exec(command, function (err) {
       if (err) { return done(err) }
-      done()
+      done(null)
     })
   }
 
@@ -24,22 +24,18 @@ describe('generator-mnm on CI', function () {
       .inDir(path.join(__dirname, '.tmp'))
       .withOptions({ skipInstall: false })
       .withPrompts({
-        name: 'generator-mnm-example',
-        description: 'An example of the generator https://github.com/maurizzzio/generator-mnm',
-        homepage: 'http://github.com/maurizzzio/generator-mnm-example',
-        githubAccount: 'maurizzzio',
-        authorName: 'Mauricio Poppe',
-        authorEmail: 'mauricio.poppe@gmail.com',
-        authorUrl: 'http://maurizzzio.com',
-        keywords: ['generator', 'example', 'mnm'],
-        
+        name: 'Mauricio Poppe',
+        email: 'mauricio.poppe@gmail.com',
+        url: 'http://maurizzzio.com',
+        githubUsername: 'maurizzzio',
+        moduleName: 'generator-mnm-example',
+        moduleDescription: 'An example of the generator https://github.com/maurizzzio/generator-mnm',
+        moduleLicense: 'MIT',
+        moduleKeywords: ['generator', 'example', 'mnm'],
         // addons
-        includeCli: true,
-        includeCoverage: true,
-
-        // generator-license
+        coverage: true,
+        // generator-license/app
         license: 'MIT',
-
         // ./generators/readme
         badges: ['npm', 'travis', 'codecov', 'david', 'downloads']
       })
@@ -72,22 +68,10 @@ describe('generator-mnm on CI', function () {
       assert.fileContent('.travis.yml', 'npm run coverage')
     })
 
-    it('should have the required contents in LICENSE', function () {
-      assert.file('LICENSE')
-      assert.fileContent('LICENSE', 'MIT')
-    })
-
     it('should execute package.json scripts', function (done) {
       series([
         function (cb)  { handleProcess('npm run build', cb)  },
         function (cb)  { handleProcess('npm test', cb)  },
-      ], done)
-    })
-
-    it('should have an executable cli file', function (done) {
-      series([
-        function (cb) { handleProcess('npm run build:cli', cb) },
-        function (cb) { handleProcess('node bin/index.js awesome', cb) }
       ], done)
     })
 
@@ -96,3 +80,4 @@ describe('generator-mnm on CI', function () {
     })
   })
 })
+

@@ -50,6 +50,7 @@ module.exports = Base.extend({
       desc: 'Skip all questions, like $ npm init -y'
     })
 
+    // TODO: performant npm
     // this.option('performant', {
     //   type: Boolean,
     //   required: false,
@@ -275,16 +276,17 @@ module.exports = Base.extend({
       }
     }, { local: require.resolve('../test') })
 
-    if (!this.shouldSkipAll) {
+    // if (!this.shouldSkipAll) {
       // TODO: make the generator receive a license field
       this.composeWith('license', {
         options: {
           name: this.props.name,
           email: this.props.email,
           website: this.props.website
-        }
+        },
+        prompts: {license: 'MIT'}
       }, { local: require.resolve('generator-license/app') })
-    }
+    // }
 
     if (!this.fs.exists(this.destinationPath('README.md'))) {
       this.composeWith('mnm:readme', {
