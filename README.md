@@ -37,7 +37,7 @@ Options:
         --skip-cache    # Do not remember prompt answers             Default: false
         --skip-install  # Do not automatically install dependencies  Default: false
   -a,   --all           # Ask all questions                          Default: false
-  -y,   --yes           # Skip all questions, like $ npm init -y     Default: false
+  -y,   --yes           # Skip some questions, like $ npm init -y     Default: false
 
 Arguments:
   name  # module name
@@ -67,7 +67,7 @@ $ yo mnm -y
 
 ## Features
 
-- Made out of many other generators, the main generator only creates a `package.json` file
+- Made out of many other generators, the main generator only creates a [`package.json` file](https://github.com/maurizzzio/generator-mnm/blob/master/generators/app/index.js#L225-L240) and a [minimal `.gitignore` file](https://github.com/maurizzzio/generator-mnm/blob/master/generators/app/index.js#L246-L248)
 - Composable, since the logic to create the README, cli and other files is in its own subgenerator you just have to plug as many subgenerators as you need to your own generator
 - [Babel](https://babeljs.io) for the code/tests
 - [standard](http://standardjs.com/) to lint the code
@@ -164,6 +164,9 @@ yo mnm -y
 ghrepo -m "._."
 # see https://www.npmjs.com/package/travisjs
 travisjs hook
+
+# if a cli is needed
+yo mnm:cli
 ```
 
 ## Development

@@ -43,7 +43,7 @@ module.exports = Base.extend({
       required: false,
       alias: 'y',
       default: false,
-      desc: 'Skip all questions, like $ npm init -y'
+      desc: 'Skip some questions, like $ npm init -y'
     })
 
     // TODO: performant npm
