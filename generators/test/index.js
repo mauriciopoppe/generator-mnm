@@ -89,6 +89,7 @@ module.exports = Base.extend({
         options: {
           config: {
             before_install: 'npm install codecov && npm install nyc',
+            build: 'npm test',
             after_success: 'npm run coverage'
           }
         }
