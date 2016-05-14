@@ -35,6 +35,7 @@ module.exports = Base.extend({
       var scripts = pkg.scripts || {}
       setTask('clean', 'rimraf ' + this.options.dist + ' && mkdirp ' + this.options.dist)
       setTask('lint', 'standard')
+      setTask('changelog', 'conventional-changelog -p eslint -i CHANGELOG.md -s -r 0')
       setTask('prebuild', 'npm run clean -s && npm run lint -s')
       setTask('build', buildScript)
       setTask('build:watch', 'npm run build -- --watch')
@@ -64,7 +65,7 @@ module.exports = Base.extend({
     },
 
     pkgDeps: function () {
-      return this._saveDeps(['rimraf', 'mkdirp', 'standard'])
+      return this._saveDeps(['rimraf', 'mkdirp', 'standard', 'conventional-changelog'])
     },
 
     templates: function () {
