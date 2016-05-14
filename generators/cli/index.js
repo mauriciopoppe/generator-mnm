@@ -27,7 +27,7 @@ module.exports = Base.extend({
       type: String,
       required: false,
       defaults: 'dist/index.js',
-      desc: 'The location of the project\'s source file'
+      desc: "The location of the project's source file"
     })
   },
 
