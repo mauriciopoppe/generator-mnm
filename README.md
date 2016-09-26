@@ -146,7 +146,6 @@ Just plug in any of the subgenerators or the `app` generator itself on your gene
 Generators used in this project
 
 - [generator-babel](https://github.com/iamstarkov/generator-babel)
-- [generator-travis](https://github.com/iamstarkov/generator-travis)
 - [generator-git-init](https://github.com/iamstarkov/generator-git-init)
 - [generator-license](https://github.com/jozefizso/generator-license)
 - [generator-mnm/generators/src](./generators/src)

@@ -97,15 +97,10 @@ module.exports = Base.extend({
   },
 
   default: function () {
-    this.composeWith('travis', {
-      options: {
-        'skip-install': this.options['skip-install'],
-        config: {
-          node_js: ['v4'],
-          script: 'npm run build'
-        }
-      }
-    }, { local: require.resolve('generator-travis/generators/app') })
+    // using my own .travis generator because the other one force defaults
+    this._travis({
+      script: 'npm run build'
+    })
 
     this.composeWith('babel', {
       options: {

@@ -85,15 +85,10 @@ module.exports = Base.extend({
 
   default: function () {
     if (this.options.coverage) {
-      this.composeWith('travis', {
-        options: {
-          config: {
-            before_install: 'npm install codecov && npm install nyc',
-            build: 'npm test',
-            after_success: 'npm run coverage'
-          }
-        }
-      }, { local: require.resolve('generator-travis/generators/app') })
+      this._travis({
+        before_install: 'npm install codecov && npm install nyc',
+        after_success: 'npm run coverage'
+      })
     }
   },
 
