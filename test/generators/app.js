@@ -41,9 +41,10 @@ describe('node-mnm:app', function () {
           email: answers.email,
           url: 'http://' + answers.website
         },
-        main: 'dist/index.js',
+        main: 'dist/' + answers.moduleName + '.js',
+        module: 'dist/' + answers.moduleName + '.mjs',
+        'jsnext:main': 'dist/' + answers.moduleName + '.mjs',
         keywords: answers.moduleKeywords,
-        'jsnext:main': 'src/index.js',
         repository: answers.githubUsername + '/' + answers.moduleName
       })
     })

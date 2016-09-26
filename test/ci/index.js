@@ -45,8 +45,9 @@ describe('generator-mnm on CI', function () {
       assert.JSONFileContent('package.json', {
         name: 'generator-mnm-example',
         version: '0.0.0',
-        main: 'dist/index.js',
-        'jsnext:main': 'src/index.js',
+        main: 'dist/generator-mnm-example.js',
+        module: 'dist/generator-mnm-example.mjs',
+        'jsnext:main': 'dist/generator-mnm-example.mjs',
         license: 'MIT'
       })
     })
@@ -54,8 +55,7 @@ describe('generator-mnm on CI', function () {
     it('should have the required contents in .babelrc', function () {
       assert.file('.babelrc')
       assert.JSONFileContent('.babelrc', {
-        presets: ['es2015'],
-        plugins: ['add-module-exports']
+        presets: ['es2015']
       })
     })
 
@@ -73,7 +73,7 @@ describe('generator-mnm on CI', function () {
     })
 
     it('should be compatible with commonjs\' require', function (done) {
-      handleProcess('node -e "require(\'./dist/index.js\')(\'awesome\')"', done)
+      handleProcess('node -e "require(\'./dist/generator-mnm-example.js\')(\'awesome\')"', done)
     })
   })
 })

@@ -2,7 +2,7 @@
 <img src="https://cloud.githubusercontent.com/assets/1616682/11403449/409e561e-9373-11e5-9aeb-7dbea090a0bd.gif" width="400px" />
 
 <p>
-Create node modules writing ES6 today compiled with Babel, tested with ava and linted with standard on top of npm scripts
+Create node modules writing ES6/ES7 today compiled with Babel, tested with ava, bundled with rollup and linted with standard on top of npm scripts
 </p>
 
 <p>
@@ -37,7 +37,7 @@ Options:
         --skip-cache    # Do not remember prompt answers             Default: false
         --skip-install  # Do not automatically install dependencies  Default: false
   -a,   --all           # Ask all questions                          Default: false
-  -y,   --yes           # Skip some questions, like $ npm init -y     Default: false
+  -y,   --yes           # Skip some questions, like $ npm init -y    Default: false
 
 Arguments:
   name  # module name
@@ -63,17 +63,18 @@ $ yo mnm -y
    create test/index.js
    create .travis.yml
    create .babelrc
+   create rollup.config.js
 ```
 
 ## Features
 
 - Made out of many other generators, the main generator only creates a [`package.json` file](https://github.com/maurizzzio/generator-mnm/blob/master/generators/app/index.js#L225-L240) and a [minimal `.gitignore` file](https://github.com/maurizzzio/generator-mnm/blob/master/generators/app/index.js#L246-L248)
-- Composable, since the logic to create the README, cli and other files is in its own subgenerator you just have to plug as many subgenerators as you need to your own generator
-- [Babel](https://babeljs.io) for the code/tests
+- Composable, since the logic to create the README, cli and other files is on their own subgenerator
+- [Babel](https://babeljs.io) transpiles the code/tests
 - [standard](http://standardjs.com/) to lint the code
 - [ava](https://github.com/sindresorhus/ava) for testing
 - [yargs](https://github.com/bcoe/yargs) to parse cli arguments (optional)
-- [jsnext:main](https://github.com/rollup/rollup/wiki/jsnext:main) field included if you want to bundle your library using a ES6 module bundler like [Rollup](https://github.com/rollup/rollup)
+- [rollup](https://github.com/rollup/rollup) to create a common js compatible bundle
 - npm scripts as the build system
 
 ## Example
@@ -87,7 +88,7 @@ Common tasks
 | task       | description  |
 | -----      | ---          |
 | `npm test` | `ava` |
-| `npm run build` | `babel src/ -output-file dist/index.js`| 
+| `npm run build` | `rollup --config`| 
 | `npm run lint` | `standard` |
 | `npm run clean` | Removes all the files inside `dist/`|
 
@@ -132,11 +133,11 @@ This project is heavily inspired by [this article by Keith Cirkel][stop-using-gr
 - https://github.com/iamstarkov/generator-zen
 - https://github.com/keithamus/npm-scripts-example 's awesome `package.json` file
 
-I'd like to thank [iamstarkov](https://github.com/iamstarkov) for his awesome composable generators
+I'd like to thank [iamstarkov](https://github.com/iamstarkov) for his awesome work on generators that are actually composable
 
 ## Composability
 
-Just plug in any of the subgenerators or the generator itself on your generator
+Just plug in any of the subgenerators or the `app` generator itself on your generator
 
 <div align="center">
 <img src="https://camo.githubusercontent.com/f8dc3e07d956f1f8dbdea5f895800fe53772a50d/687474703a2f2f692e696d6775722e636f6d2f326771696966742e6a7067">
@@ -153,17 +154,15 @@ Generators used in this project
 - [generator-mnm/generators/cli](./generators/cli)
 - [generator-mnm/generators/readme](./generators/readme)
 
-Refer to their README files on how to include it your generators
-
 ## Workflow
 
 ```sh
 # equivalent to npm init -y
 yo mnm -y
 # see https://www.npmjs.com/package/ghrepo
-ghrepo -m "._."
+ghrepo -m "initial commit"
 # see https://www.npmjs.com/package/travisjs
-travisjs hook
+travisjs hook # or travis enable with the travis gem
 
 # if a cli is needed
 yo mnm:cli
@@ -171,7 +170,8 @@ yo mnm:cli
 
 ## Development
 
-- `npm test`, `npm test:ci` run the tests
+- `npm test`
+- `npm test:ci` run the tests (open `./test/ci/.tmp` to see a generated)
 
 ## License
 

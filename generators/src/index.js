@@ -1,5 +1,6 @@
 'use strict'
 var path = require('path')
+var toCase = require('to-case')
 
 var Base = require('../base')
 
@@ -20,6 +21,7 @@ module.exports = Base.extend({
       defaults: 'dist/',
       desc: 'Dist folder (after compilation with Babel)'
     })
+
   },
 
   writing: {
@@ -29,15 +31,13 @@ module.exports = Base.extend({
       }
 
       var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
-      var distPath = path.join(this.options.dist, 'index.js')
-      var srcPath = path.join(this.options.src, 'index.js')
-      var buildScript = 'babel ' + srcPath + ' --out-file ' + distPath
+
       var scripts = pkg.scripts || {}
       setTask('clean', 'rimraf ' + this.options.dist + ' && mkdirp ' + this.options.dist)
       setTask('lint', 'standard')
       setTask('changelog', 'conventional-changelog -p eslint -i CHANGELOG.md -s -r 0')
       setTask('prebuild', 'npm run clean -s && npm run lint -s')
-      setTask('build', buildScript)
+      setTask('build', 'rollup --config')
       setTask('build:watch', 'npm run build -- --watch')
       // instead of runnning this on prepublish which doesn't work as expecte on
       // npm@3 run it on preversion, this is because it's highly unlikely to do
@@ -65,16 +65,30 @@ module.exports = Base.extend({
     },
 
     pkgDeps: function () {
-      return this._saveDeps(['rimraf', 'mkdirp', 'standard', 'conventional-changelog'])
+      return this._saveDeps([
+        'rimraf', 'mkdirp', 'standard', 'conventional-changelog',
+        'rollup', 'rollup-plugin-babel', 'rollup-watch', 'babelrc-rollup'
+      ])
     },
 
     templates: function () {
+      var pkg = this.fs.readJSON(this.destinationPath('package.json'), {})
       var srcPath = path.join(this.options.src, 'index.js')
 
-      // copy template to this.options.src
+      // copy index.tpl as srcPath
+      // e.g. src/index.js
       this.fs.copyTpl(
         this.templatePath('index.tpl'),
         this.destinationPath(srcPath), {}
+      )
+
+      // copy rollup.config.tpl to rollup.config.js 
+      this.fs.copyTpl(
+        this.templatePath('rollup.config.tpl'),
+        this.destinationPath('rollup.config.js'), {
+          srcPath: srcPath,
+          moduleName: toCase.camel(pkg.name || this.appname)
+        }
       )
     },
 
@@ -97,8 +111,7 @@ module.exports = Base.extend({
       options: {
         'skip-install': this.options['skip-install'],
         config: {
-          plugins: ['add-module-exports'],
-          sourceMaps: true
+          plugins: ['external-helpers']
         }
       }
     }, { local: require.resolve('generator-babel/generators/app') })

@@ -232,11 +232,13 @@ module.exports = Base.extend({
           email: this.props.email,
           url: this.props.website
         },
-        main: this.props.dist + 'index.js',
-        'jsnext:main': this.props.src + 'index.js',
+        main: this.props.dist + this.props.moduleName + '.js',
+        module: this.props.dist + this.props.moduleName + '.mjs',
+        'jsnext:main': this.props.dist + this.props.moduleName + '.mjs',
         keywords: this.props.moduleKeywords,
         repository: this.props.githubUsername + '/' + this.props.moduleName,
-        scripts: {}
+        scripts: {},
+        dependencies: {},
       }
 
       // Let's extend package.json so we're not overwriting user previous fields
@@ -249,8 +251,6 @@ module.exports = Base.extend({
   },
 
   default: function () {
-    // TODO: compose with mnm:rollup
-
     // git init
     this.composeWith('git-init', {}, {
       local: require.resolve('generator-git-init/generators/app')
@@ -267,10 +267,10 @@ module.exports = Base.extend({
 
     this.composeWith('mnm:test', {
       options: {
-        'skip-install': this.options['skip-install'],
         src: this.props.src,
         test: this.props.test,
-        coverage: this.props.coverage
+        coverage: this.props.coverage,
+        'skip-install': this.options['skip-install'],
       }
     }, { local: require.resolve('../test') })
 

@@ -16,13 +16,14 @@ describe('mnm::src', function () {
 
     it('creates a source file', function () {
       assert.file('src/index.js')
+      assert.file('rollup.config.js')
     })
 
     it('modifies package.json scripts field', function () {
       assert.fileContent('package.json', '"lint": "standard"')
       assert.fileContent('package.json', '"clean": "rimraf dist/ && mkdirp dist/"')
       assert.fileContent('package.json', '"prebuild": "npm run clean -s && npm run lint -s"')
-      assert.fileContent('package.json', '"build": "babel src/index.js --out-file dist/index.js"')
+      assert.fileContent('package.json', '"build": "rollup --config"')
       assert.fileContent('package.json', '"build:watch": "npm run build -- --watch"')
     })
 
@@ -39,7 +40,6 @@ describe('mnm::src', function () {
           'babel-cli': '6.6.5',
           'babel-register': '6.7.2',
           'babel-preset-es2015': '*',
-          'babel-plugin-add-module-exports': '*',
           rimraf: '*',
           mkdirp: '*',
           standard: '*'
@@ -85,7 +85,7 @@ describe('mnm::src', function () {
     })
 
     it('modifies package.json scripts field', function () {
-      assert.fileContent('package.json', '"build": "babel lib/index.js --out-file build/index.js"')
+      assert.fileContent('package.json', '"build": "rollup --config"')
     })
   })
 })
