@@ -52,6 +52,7 @@
     "relative": "^3.0.2",
     "sorted-object": "^2.0.0",
     "to-case": "^2.0.0",
+    "yamljs": "^0.2.8",
     "yeoman-generator": "^0.22.6"
   },
   "devDependencies": {
