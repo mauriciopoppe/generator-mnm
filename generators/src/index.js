@@ -101,6 +101,7 @@ module.exports = Base.extend({
       options: {
         'skip-install': this.options['skip-install'],
         config: {
+          node_js: ['v4'],
           script: 'npm run build'
         }
       }
