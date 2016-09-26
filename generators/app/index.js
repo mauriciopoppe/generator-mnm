@@ -238,7 +238,7 @@ module.exports = Base.extend({
         keywords: this.props.moduleKeywords,
         repository: this.props.githubUsername + '/' + this.props.moduleName,
         scripts: {},
-        dependencies: {},
+        dependencies: {}
       }
 
       // Let's extend package.json so we're not overwriting user previous fields
@@ -270,7 +270,7 @@ module.exports = Base.extend({
         src: this.props.src,
         test: this.props.test,
         coverage: this.props.coverage,
-        'skip-install': this.options['skip-install'],
+        'skip-install': this.options['skip-install']
       }
     }, { local: require.resolve('../test') })
 

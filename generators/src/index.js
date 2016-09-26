@@ -21,7 +21,6 @@ module.exports = Base.extend({
       defaults: 'dist/',
       desc: 'Dist folder (after compilation with Babel)'
     })
-
   },
 
   writing: {
@@ -82,7 +81,7 @@ module.exports = Base.extend({
         this.destinationPath(srcPath), {}
       )
 
-      // copy rollup.config.tpl to rollup.config.js 
+      // copy rollup.config.tpl to rollup.config.js
       this.fs.copyTpl(
         this.templatePath('rollup.config.tpl'),
         this.destinationPath('rollup.config.js'), {
