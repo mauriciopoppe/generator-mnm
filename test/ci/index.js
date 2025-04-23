@@ -22,7 +22,7 @@ describe('generator-mnm on CI', function () {
       .withOptions({ skipInstall: false })
       .withPrompts({
         name: 'Mauricio Poppe',
-        email: 'mauricio.poppe@gmail.com',
+        email: 'foo@bar.com',
         url: 'http://maurizzzio.com',
         githubUsername: 'maurizzzio',
         moduleName: 'generator-mnm-example',
