@@ -4,11 +4,8 @@
   "description": "Create node modules writing ES6 today compiled with Babel, tested with ava and linted with standard on top of npm scripts Create node modules with es6, test with tape on top of npm scripts",
   "license": "MIT",
   "main": "index.js",
-  "repository": "maurizzzio/generator-mnm",
-  "author": {
-    "name": "Mauricio Poppe",
-    "url": "https://github.com/maurizzzio"
-  },
+  "repository": "mauriciopoppe/generator-mnm",
+  "author": "Mauricio Poppe (https://mauriciopoppe.com)",
   "engines": {
     "node": ">=4"
   },
